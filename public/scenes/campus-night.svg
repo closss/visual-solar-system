@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="campus night background">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#20232a"/>
+      <stop offset=".42" stop-color="#31556d"/>
+      <stop offset="1" stop-color="#d0a35d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".24" r=".28">
+      <stop stop-color="#fff0a9" stop-opacity=".76"/>
+      <stop offset="1" stop-color="#fff0a9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="650" width="1600" height="350" fill="#2b3a34"/>
+  <path d="M0 704 C310 620 560 678 840 626 C1080 580 1290 610 1600 552 L1600 1000 L0 1000Z" fill="#7c8b6e"/>
+  <rect x="115" y="420" width="250" height="300" fill="#2b3136" opacity=".8"/>
+  <rect x="460" y="355" width="380" height="390" fill="#313b42" opacity=".78"/>
+  <rect x="920" y="440" width="250" height="260" fill="#2a3135" opacity=".76"/>
+  <g fill="#ffd98d" opacity=".66">
+    <rect x="510" y="420" width="40" height="62"/>
+    <rect x="596" y="420" width="40" height="62"/>
+    <rect x="682" y="420" width="40" height="62"/>
+    <rect x="1012" y="488" width="34" height="52"/>
+    <rect x="1080" y="488" width="34" height="52"/>
+  </g>
+  <circle cx="1160" cy="220" r="96" fill="#ffe5a0" opacity=".86"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <path d="M370 790 C620 725 950 710 1260 772" stroke="#101616" stroke-opacity=".28" stroke-width="76" fill="none"/>
+</svg>
