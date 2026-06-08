@@ -1,0 +1,202 @@
+import * as THREE from 'three';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { heritageArtifacts, type HeritageArtifact } from './data/heritage-artifacts';
+
+const root = document.querySelector<HTMLDivElement>('#renderRoot');
+if (!root) throw new Error('Missing render root');
+
+root.innerHTML = `
+  <style>
+    body { margin: 0; overflow: hidden; background: #f4f0e8; }
+    #renderCanvas { display: block; width: 512px; height: 512px; }
+    #ready { position: fixed; left: -999px; top: -999px; }
+  </style>
+  <canvas id="renderCanvas" width="512" height="512"></canvas>
+  <div id="ready">loading</div>
+`;
+
+const canvas = document.querySelector<HTMLCanvasElement>('#renderCanvas');
+const ready = document.querySelector<HTMLElement>('#ready');
+if (!canvas || !ready) throw new Error('Missing render nodes');
+
+const params = new URLSearchParams(window.location.search);
+const artifactId = params.get('artifact') ?? 'stanford-bunny';
+const angle = Number(params.get('angle') ?? 0);
+const fit = Number(params.get('fit') ?? 1.65);
+const sourcePath = params.get('source');
+const artifact = heritageArtifacts.find((item) => item.id === artifactId) ?? heritageArtifacts[3];
+
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  preserveDrawingBuffer: true,
+  powerPreference: 'high-performance',
+});
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.setSize(512, 512, false);
+renderer.setPixelRatio(1);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf4f0e8);
+
+const gltfLoader = new GLTFLoader();
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/draco/');
+gltfLoader.setDRACOLoader(dracoLoader);
+
+const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 20);
+camera.position.set(0, 0.35, 3.1);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xc9b59b, 2.4));
+const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+keyLight.position.set(2.6, 3.6, 4.2);
+scene.add(keyLight);
+const fillLight = new THREE.DirectionalLight(0x87c9ff, 1.2);
+fillLight.position.set(-3.2, 1.2, 2.8);
+scene.add(fillLight);
+
+function materialFor(item: HeritageArtifact): THREE.MeshStandardMaterial {
+  return new THREE.MeshStandardMaterial({
+    color: item.model.color,
+    metalness: 0.22,
+    roughness: 0.46,
+  });
+}
+
+function createBronzeTree(item: HeritageArtifact): THREE.Group {
+  const group = new THREE.Group();
+  const bark = materialFor(item);
+  const accent = new THREE.MeshStandardMaterial({ color: item.model.accent, metalness: 0.5, roughness: 0.4 });
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.2, 2.2, 12), bark);
+  trunk.position.y = 0.9;
+  group.add(trunk);
+  for (let level = 0; level < 3; level += 1) {
+    const y = 0.55 + level * 0.58;
+    for (let i = 0; i < 3; i += 1) {
+      const angle = (i / 3) * Math.PI * 2 + level * 0.45;
+      const branch = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.055, 0.88 - level * 0.1, 10), bark);
+      branch.position.set(Math.cos(angle) * 0.26, y, Math.sin(angle) * 0.26);
+      branch.rotation.z = Math.PI / 2.8;
+      branch.rotation.y = angle;
+      group.add(branch);
+      const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.16, 18, 12), accent);
+      leaf.position.set(Math.cos(angle) * (0.62 + level * 0.06), y + 0.28, Math.sin(angle) * (0.62 + level * 0.06));
+      group.add(leaf);
+    }
+  }
+  return group;
+}
+
+function createDuguSeal(item: HeritageArtifact): THREE.Group {
+  const group = new THREE.Group();
+  const seal = new THREE.Mesh(new THREE.IcosahedronGeometry(0.78, 1), materialFor(item));
+  const edges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(seal.geometry),
+    new THREE.LineBasicMaterial({ color: item.model.accent, transparent: true, opacity: 0.65 }),
+  );
+  group.add(seal, edges);
+  return group;
+}
+
+function createTerracotta(item: HeritageArtifact): THREE.Group {
+  const group = new THREE.Group();
+  const mat = materialFor(item);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 28, 18), mat);
+  head.position.y = 1.12;
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 0.74, 6, 18), mat);
+  body.position.y = 0.46;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.16, 0.72), mat);
+  base.position.y = -0.05;
+  const shoulder = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.16, 0.32), mat);
+  shoulder.position.y = 0.83;
+  group.add(head, body, base, shoulder);
+  return group;
+}
+
+function createMoai(item: HeritageArtifact): THREE.Group {
+  const group = new THREE.Group();
+  const mat = materialFor(item);
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.58, 1.05, 0.42), mat);
+  head.position.y = 0.58;
+  const nose = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.34, 0.16), new THREE.MeshStandardMaterial({ color: item.model.accent, roughness: 0.5 }));
+  nose.position.set(0, 0.68, 0.28);
+  const brow = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.08, 0.12), mat);
+  brow.position.set(0, 0.88, 0.28);
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.36, 0.5), mat);
+  base.position.y = -0.15;
+  group.add(head, nose, brow, base);
+  return group;
+}
+
+function createProceduralModel(item: HeritageArtifact): THREE.Group {
+  if (item.model.variant === 'bronze-tree') return createBronzeTree(item);
+  if (item.model.variant === 'dugu-seal') return createDuguSeal(item);
+  if (item.model.variant === 'terracotta') return createTerracotta(item);
+  if (item.model.variant === 'moai') return createMoai(item);
+  const fallback = new THREE.Mesh(new THREE.IcosahedronGeometry(0.85, 2), materialFor(item));
+  const group = new THREE.Group();
+  group.add(fallback);
+  return group;
+}
+
+function normalize(rootObject: THREE.Object3D): void {
+  const box = new THREE.Box3().setFromObject(rootObject);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  const maxSide = Math.max(size.x, size.y, size.z) || 1;
+  const scale = fit / maxSide;
+  rootObject.scale.multiplyScalar(scale);
+  rootObject.position.sub(center.multiplyScalar(scale));
+}
+
+function kindFromPath(path: string): HeritageArtifact['model']['kind'] | null {
+  const extension = path.split('?')[0]?.split('.').pop()?.toLowerCase();
+  if (extension === 'glb') return 'glb';
+  if (extension === 'ply') return 'ply';
+  if (extension === 'stl') return 'stl';
+  return null;
+}
+
+async function loadGeometryModel(item: HeritageArtifact): Promise<THREE.Group> {
+  const path = sourcePath ?? item.model.path;
+  const kind = sourcePath ? kindFromPath(sourcePath) : item.model.kind;
+
+  if (!path || kind === 'procedural' || !kind) {
+    return createProceduralModel(item);
+  }
+
+  if (kind === 'glb') {
+    const gltf = await gltfLoader.loadAsync(path);
+    const group = gltf.scene;
+    group.traverse((node) => {
+      if (node instanceof THREE.Mesh && !node.material) {
+        node.material = materialFor(item);
+      }
+    });
+    return group;
+  }
+
+  const geometry = await new Promise<THREE.BufferGeometry>((resolve, reject) => {
+    const loader = kind === 'ply' ? new PLYLoader() : new STLLoader();
+    loader.load(path, resolve, undefined, reject);
+  });
+  geometry.computeVertexNormals();
+  const mesh = new THREE.Mesh(geometry, materialFor(item));
+  const group = new THREE.Group();
+  group.add(mesh);
+  return group;
+}
+
+const object = await loadGeometryModel(artifact);
+normalize(object);
+object.rotation.y = THREE.MathUtils.degToRad(angle);
+object.rotation.x = THREE.MathUtils.degToRad(-8);
+scene.add(object);
+
+renderer.render(scene, camera);
+ready.textContent = params.get('export') === 'data-url' ? canvas.toDataURL('image/png') : 'ready';

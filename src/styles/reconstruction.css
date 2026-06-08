@@ -1,0 +1,157 @@
+:root {
+  color: #eef4ef;
+  background: #111513;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.viewer-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  min-height: 100vh;
+  background: #111513;
+}
+
+.viewport {
+  position: relative;
+  min-height: 100vh;
+}
+
+#reconstructionCanvas {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}
+
+.hud {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(12, 16, 15, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.hud strong {
+  font-size: 13px;
+}
+
+.hud span,
+.side-panel p,
+.side-panel dd {
+  color: rgba(238, 244, 239, 0.72);
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 100vh;
+  padding: 26px 22px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  background: #181d1a;
+}
+
+.side-panel p,
+.side-panel h1 {
+  margin: 0;
+}
+
+.side-panel p {
+  margin-bottom: 6px;
+  color: #8fe7ff;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.side-panel h1 {
+  font-size: 30px;
+  line-height: 1.08;
+}
+
+dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+dl div {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+dt {
+  color: #f1d78f;
+}
+
+dd {
+  margin: 0;
+}
+
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.thumbs img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin-top: auto;
+  border-radius: 8px;
+  color: #111513;
+  background: #f1d78f;
+  text-decoration: none;
+}
+
+@media (max-width: 800px) {
+  body {
+    overflow: auto;
+  }
+
+  .viewer-shell {
+    grid-template-columns: 1fr;
+  }
+
+  #reconstructionCanvas,
+  .viewport,
+  .side-panel {
+    min-height: auto;
+  }
+
+  #reconstructionCanvas {
+    height: 68vh;
+  }
+}
