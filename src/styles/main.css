@@ -197,6 +197,47 @@ dd {
   line-height: 1.72;
 }
 
+.sample-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.sample-picker-label {
+  grid-column: 1 / -1;
+  color: rgba(244, 239, 226, 0.52);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.sample-button {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid rgba(136, 226, 255, 0.26);
+  border-radius: 8px;
+  color: #f4efe2;
+  text-align: left;
+  background: rgba(136, 226, 255, 0.06);
+  cursor: pointer;
+}
+
+.sample-button:hover,
+.sample-button:focus-visible {
+  outline: none;
+  border-color: rgba(247, 216, 138, 0.58);
+  background: rgba(247, 216, 138, 0.1);
+}
+
+.sample-button span {
+  overflow-wrap: anywhere;
+}
+
+.sample-button small {
+  color: rgba(244, 239, 226, 0.52);
+}
+
 .detail-list {
   display: grid;
   gap: 10px;

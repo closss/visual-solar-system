@@ -4,7 +4,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
-import { heritageArtifacts, type HeritageArtifact } from './data/heritage-artifacts';
+import { shouldUpdateOrbitControls } from './camera-focus';
+import {
+  featuredReconstructionIds,
+  heritageArtifacts,
+  type HeritageArtifact,
+} from './data/heritage-artifacts';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app) throw new Error('Missing #app root');
@@ -53,7 +58,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x080b0f);
-scene.fog = new THREE.Fog(0x080b0f, 9, 24);
+scene.fog = new THREE.Fog(0x080b0f, 10, 27);
 
 const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 80);
 camera.position.set(0, 8.2, 15.5);
@@ -112,6 +117,7 @@ function createStarField(): THREE.Points {
 scene.add(createStarField());
 
 const raycaster = new THREE.Raycaster();
+raycaster.params.Points.threshold = 0.1;
 const pointer = new THREE.Vector2();
 const clock = new THREE.Clock();
 const normalCameraPosition = new THREE.Vector3(0, 9.4, 18.2);
@@ -136,15 +142,29 @@ function renderPanel(artifact: HeritageArtifact | null): void {
     artifactPanel.innerHTML = `
       <div class="panel-kicker">Heritage Orbit</div>
       <h2>物体太阳系</h2>
-      <p class="subtitle">9 个文物与图形学经典物体组成太阳和八大行星。</p>
+      <p class="subtitle">9 个主轨道对象与 2 个多视角重建样本组成文物太阳系。</p>
       <dl>
-        <div><dt>后端</dt><dd>MapAnything 离线重建，每个对象 12 视角输入。</dd></div>
+        <div><dt>后端</dt><dd>MapAnything 离线重建，包含 12 视角基准与 36 视角彩色点云。</dd></div>
         <div><dt>交互</dt><dd>点击任意物体，太阳系暂停，物体放大后可拖拽旋转。</dd></div>
         <div><dt>资产</dt><dd>公开扫描资产、高清参考图与程序化近似几何组合。</dd></div>
       </dl>
+      <div class="sample-picker">
+        <div class="sample-picker-label">36-view reconstructions</div>
+        ${featuredReconstructionIds.map((id) => {
+          const item = heritageArtifacts.find((artifact) => artifact.id === id);
+          if (!item) return '';
+          return `<button class="sample-button" data-artifact-id="${item.id}" type="button">
+            <span>${item.title}</span>
+            <small>${item.reconstructionQuality === 'experimental' ? '实验结果' : '推荐展示'}</small>
+          </button>`;
+        }).join('')}
+      </div>
       <p class="body-copy">这个版本面向课堂 presentation：先展示太阳系整体结构，再点击单个物体进入文物介绍与重建结果观察。</p>
     `;
     captionNode.textContent = '点击任意文物进入观察模式';
+    artifactPanel.querySelectorAll<HTMLButtonElement>('[data-artifact-id]').forEach((button) => {
+      button.addEventListener('click', () => selectArtifact(button.dataset.artifactId ?? ''));
+    });
     return;
   }
 
@@ -161,7 +181,7 @@ function renderPanel(artifact: HeritageArtifact | null): void {
     <dl>
       <div><dt>年代</dt><dd>${artifact.period}</dd></div>
       <div><dt>角色</dt><dd>${artifact.orbitRole}，${artifact.orbitRole === '太阳' ? '中心不公转，仅自转' : '围绕太阳公转并自转'}</dd></div>
-      <div><dt>重建</dt><dd>GLB / MapAnything 12 视角离线重建</dd></div>
+      <div><dt>重建</dt><dd>${describeReconstruction(artifact)}</dd></div>
     </dl>
     <p class="body-copy">${artifact.body}</p>
     <ul class="detail-list">
@@ -172,6 +192,19 @@ function renderPanel(artifact: HeritageArtifact | null): void {
   captionNode.textContent = `${artifact.orbitRole} · ${artifact.title}`;
 
   document.querySelector<HTMLButtonElement>('#returnButton')?.addEventListener('click', clearSelection);
+}
+
+function describeReconstruction(artifact: HeritageArtifact): string {
+  const views = artifact.reconstructionViews ?? 12;
+  if (artifact.model.representation !== 'point-cloud') {
+    return `GLB / MapAnything ${views} 视角离线重建`;
+  }
+
+  const pointCount = artifact.model.pointCount
+    ? `${Math.round(artifact.model.pointCount / 10000)} 万点`
+    : '彩色点云';
+  const quality = artifact.reconstructionQuality === 'experimental' ? ' / 实验结果' : '';
+  return `MapAnything ${views} 视角 / ${pointCount}${quality}`;
 }
 
 function makeMaterial(artifact: HeritageArtifact): THREE.MeshStandardMaterial {
@@ -191,6 +224,44 @@ function tagObject(root: THREE.Object3D, artifact: HeritageArtifact): void {
       node.castShadow = true;
       node.receiveShadow = true;
     }
+  });
+}
+
+let pointSprite: THREE.CanvasTexture | null = null;
+
+function getPointSprite(): THREE.CanvasTexture {
+  if (pointSprite) return pointSprite;
+
+  const spriteCanvas = document.createElement('canvas');
+  spriteCanvas.width = 32;
+  spriteCanvas.height = 32;
+  const context = spriteCanvas.getContext('2d');
+  if (!context) throw new Error('Unable to create point sprite');
+  context.fillStyle = '#ffffff';
+  context.beginPath();
+  context.arc(16, 16, 14, 0, Math.PI * 2);
+  context.fill();
+
+  pointSprite = new THREE.CanvasTexture(spriteCanvas);
+  pointSprite.colorSpace = THREE.SRGBColorSpace;
+  return pointSprite;
+}
+
+function stylePointCloud(root: THREE.Object3D, artifact: HeritageArtifact): void {
+  root.traverse((node) => {
+    if (!(node instanceof THREE.Points)) return;
+    node.material = new THREE.PointsMaterial({
+      size: artifact.model.pointSize ?? 0.018,
+      sizeAttenuation: true,
+      vertexColors: Boolean(node.geometry.getAttribute('color')),
+      color: artifact.model.color,
+      map: getPointSprite(),
+      alphaTest: 0.5,
+      transparent: true,
+      opacity: 0.96,
+      depthWrite: true,
+      toneMapped: false,
+    });
   });
 }
 
@@ -298,6 +369,9 @@ async function loadModel(artifact: HeritageArtifact): Promise<THREE.Group> {
   if (artifact.model.kind === 'glb') {
     const gltf = await new GLTFLoader().loadAsync(artifact.model.path ?? '');
     const group = gltf.scene;
+    if (artifact.model.representation === 'point-cloud') {
+      stylePointCloud(group, artifact);
+    }
     group.traverse((node) => {
       if (node instanceof THREE.Mesh) {
         if (!node.material) node.material = makeMaterial(artifact);
@@ -393,6 +467,9 @@ function clearSelection(): void {
   isInspecting = false;
   draggedBody = null;
   controls.enabled = true;
+  camera.position.copy(normalCameraPosition);
+  controls.target.copy(normalTarget);
+  controls.update();
   solarCanvas.classList.remove('inspecting', 'dragging');
   renderPanel(null);
 }
@@ -479,7 +556,9 @@ function animate(): void {
       camera.lookAt(controls.target);
     }
   }
-  controls.update();
+  if (shouldUpdateOrbitControls(isInspecting)) {
+    controls.update();
+  }
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }

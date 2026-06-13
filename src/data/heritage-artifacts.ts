@@ -10,10 +10,15 @@ export interface HeritageArtifact {
   details: string[];
   image?: string;
   source: string;
+  reconstructionViews?: number;
+  reconstructionQuality?: 'standard' | 'experimental';
   model: {
     kind: HeritageModelKind;
     path?: string;
     variant?: 'bronze-tree' | 'dugu-seal' | 'terracotta' | 'moai';
+    representation?: 'mesh' | 'point-cloud';
+    pointSize?: number;
+    pointCount?: number;
     color: number;
     accent: number;
     size: number;
@@ -22,6 +27,8 @@ export interface HeritageArtifact {
   orbitSpeed: number;
   spinSpeed: number;
 }
+
+export const featuredReconstructionIds = ['nefertiti', 'lewis-queen'] as const;
 
 export const heritageArtifacts: HeritageArtifact[] = [
   {
@@ -152,5 +159,55 @@ export const heritageArtifacts: HeritageArtifact[] = [
     orbitRadius: 11.0,
     orbitSpeed: 0.09,
     spinSpeed: 0.3,
+  },
+  {
+    id: 'nefertiti',
+    orbitRole: '彗星',
+    title: 'Nefertiti Bust',
+    subtitle: '36 视角彩色点云重建',
+    period: '古埃及第十八王朝，约公元前 1345 年',
+    body: '该结果由公开三维模型统一渲染 36 个环绕视角，再经 MapAnything 估计相机、深度和稠密点云。遮罩过滤摄影棚后，头冠、面部和胸像底座均保留了完整体积。',
+    details: ['输入覆盖 3 个俯仰角，每层 12 个方位角，避免单视角重建常见的平面塌缩。', '浏览器资产从约 309 万点确定性降采样到 40 万点，保留 RGBA 顶点颜色。', '这是当前两组实验中纹理和几何稳定性更好的结果，可作为主要 MapAnything 展示样例。'],
+    source: 'MapAnything 36-view reconstruction from uniformly rendered Nefertiti model views; object-only mask filtering',
+    reconstructionViews: 36,
+    reconstructionQuality: 'standard',
+    model: {
+      kind: 'glb',
+      path: '/heritage/recon/nefertiti-object-lite.glb',
+      representation: 'point-cloud',
+      pointSize: 0.018,
+      pointCount: 400000,
+      color: 0xd7a372,
+      accent: 0xffc56d,
+      size: 0.92,
+    },
+    orbitRadius: 11.7,
+    orbitSpeed: 0.075,
+    spinSpeed: 0.27,
+  },
+  {
+    id: 'lewis-queen',
+    orbitRole: '矮行星',
+    title: 'Lewis Chess Queen',
+    subtitle: '实验性 36 视角点云重建',
+    period: '约公元 12 世纪',
+    body: 'Lewis Chess Queen 使用同一套 36 视角流程完成重建，几何体积已经稳定，但原始模型纹理较弱，MapAnything 融合后表面颜色仍偏模糊，因此作为对照实验保留。',
+    details: ['相机轨迹和三维尺度正常，不再出现只剩一个面或压成平面的情况。', '浏览器版本由约 170 万点降采样到 40 万点，主要轮廓和顶点颜色得到保留。', '当前问题集中在输入纹理质量和跨视角颜色一致性，而不是前端渲染或相机估计。'],
+    source: 'MapAnything 36-view reconstruction from uniformly rendered Lewis Chess Queen model views; experimental texture result',
+    reconstructionViews: 36,
+    reconstructionQuality: 'experimental',
+    model: {
+      kind: 'glb',
+      path: '/heritage/recon/lewis-queen-object-lite.glb',
+      representation: 'point-cloud',
+      pointSize: 0.019,
+      pointCount: 400000,
+      color: 0xb7946c,
+      accent: 0xe3bd83,
+      size: 0.84,
+    },
+    orbitRadius: 12.45,
+    orbitSpeed: 0.06,
+    spinSpeed: 0.24,
   },
 ];

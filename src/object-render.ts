@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { heritageArtifacts, type HeritageArtifact } from './data/heritage-artifacts';
+import { parseRenderFlags, parseRenderPose } from './multiview-render-config';
 
 const root = document.querySelector<HTMLDivElement>('#renderRoot');
 if (!root) throw new Error('Missing render root');
@@ -27,6 +28,10 @@ const artifactId = params.get('artifact') ?? 'stanford-bunny';
 const angle = Number(params.get('angle') ?? 0);
 const fit = Number(params.get('fit') ?? 1.65);
 const sourcePath = params.get('source');
+const pose = parseRenderPose(params);
+const renderFlags = parseRenderFlags(params);
+const useStudio = renderFlags.studio;
+const maskMode = renderFlags.mask;
 const artifact = heritageArtifacts.find((item) => item.id === artifactId) ?? heritageArtifacts[3];
 
 const renderer = new THREE.WebGLRenderer({
@@ -42,7 +47,7 @@ renderer.setSize(512, 512, false);
 renderer.setPixelRatio(1);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xf4f0e8);
+scene.background = new THREE.Color(maskMode ? 0x000000 : useStudio ? 0xd8dde2 : 0xf4f0e8);
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -59,6 +64,88 @@ scene.add(keyLight);
 const fillLight = new THREE.DirectionalLight(0x87c9ff, 1.2);
 fillLight.position.set(-3.2, 1.2, 2.8);
 scene.add(fillLight);
+
+function createStudioTexture(width: number, height: number): THREE.CanvasTexture {
+  const textureCanvas = document.createElement('canvas');
+  textureCanvas.width = width;
+  textureCanvas.height = height;
+  const context = textureCanvas.getContext('2d');
+  if (!context) throw new Error('Unable to create studio texture');
+
+  context.fillStyle = '#d8dde2';
+  context.fillRect(0, 0, width, height);
+
+  const panelColors = ['#b7c7c1', '#d5b38f', '#9fb4c8', '#c5b8ca', '#b8c49f', '#d2a5a0'];
+  const panelWidth = width / panelColors.length;
+  panelColors.forEach((color, index) => {
+    context.fillStyle = color;
+    context.fillRect(index * panelWidth, 0, panelWidth, height);
+  });
+
+  context.strokeStyle = 'rgba(42, 53, 59, 0.48)';
+  context.lineWidth = 5;
+  for (let x = 0; x <= width; x += 96) {
+    context.beginPath();
+    context.moveTo(x, 0);
+    context.lineTo(x, height);
+    context.stroke();
+  }
+  for (let y = 64; y < height; y += 96) {
+    context.beginPath();
+    context.moveTo(0, y);
+    context.lineTo(width, y);
+    context.stroke();
+  }
+
+  context.fillStyle = 'rgba(255, 255, 255, 0.72)';
+  for (let x = 48; x < width; x += 160) {
+    context.beginPath();
+    context.arc(x, height * 0.28, 18, 0, Math.PI * 2);
+    context.fill();
+  }
+
+  const texture = new THREE.CanvasTexture(textureCanvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  return texture;
+}
+
+function createStudio(): THREE.Group {
+  const studio = new THREE.Group();
+  const floorTexture = createStudioTexture(768, 768);
+  floorTexture.repeat.set(3, 3);
+  const wallTexture = createStudioTexture(1024, 512);
+
+  const floor = new THREE.Mesh(
+    new THREE.CircleGeometry(5, 96),
+    new THREE.MeshStandardMaterial({
+      map: floorTexture,
+      roughness: 0.82,
+      metalness: 0,
+    }),
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -1.02;
+  floor.receiveShadow = true;
+
+  const wall = new THREE.Mesh(
+    new THREE.CylinderGeometry(5, 5, 4.5, 96, 1, true),
+    new THREE.MeshStandardMaterial({
+      map: wallTexture,
+      roughness: 0.9,
+      metalness: 0,
+      side: THREE.BackSide,
+    }),
+  );
+  wall.position.y = 1.2;
+  studio.add(floor, wall);
+  return studio;
+}
+
+if (useStudio && !maskMode) {
+  scene.add(createStudio());
+}
 
 function materialFor(item: HeritageArtifact): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
@@ -174,8 +261,14 @@ async function loadGeometryModel(item: HeritageArtifact): Promise<THREE.Group> {
     const gltf = await gltfLoader.loadAsync(path);
     const group = gltf.scene;
     group.traverse((node) => {
-      if (node instanceof THREE.Mesh && !node.material) {
-        node.material = materialFor(item);
+      if (node instanceof THREE.Mesh) {
+        node.castShadow = !maskMode;
+        node.receiveShadow = !maskMode;
+        if (maskMode) {
+          node.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        } else if (!node.material) {
+          node.material = materialFor(item);
+        }
       }
     });
     return group;
@@ -186,7 +279,12 @@ async function loadGeometryModel(item: HeritageArtifact): Promise<THREE.Group> {
     loader.load(path, resolve, undefined, reject);
   });
   geometry.computeVertexNormals();
-  const mesh = new THREE.Mesh(geometry, materialFor(item));
+  const mesh = new THREE.Mesh(
+    geometry,
+    maskMode
+      ? new THREE.MeshBasicMaterial({ color: 0xffffff })
+      : materialFor(item),
+  );
   const group = new THREE.Group();
   group.add(mesh);
   return group;
@@ -195,8 +293,21 @@ async function loadGeometryModel(item: HeritageArtifact): Promise<THREE.Group> {
 const object = await loadGeometryModel(artifact);
 normalize(object);
 object.rotation.y = THREE.MathUtils.degToRad(angle);
-object.rotation.x = THREE.MathUtils.degToRad(-8);
 scene.add(object);
+
+if (useStudio) {
+  const azimuth = THREE.MathUtils.degToRad(pose.azimuth);
+  const elevation = THREE.MathUtils.degToRad(pose.elevation);
+  const radius = 3.25;
+  camera.position.set(
+    Math.sin(azimuth) * Math.cos(elevation) * radius,
+    Math.sin(elevation) * radius + 0.12,
+    Math.cos(azimuth) * Math.cos(elevation) * radius,
+  );
+  camera.lookAt(0, 0, 0);
+} else {
+  object.rotation.x = THREE.MathUtils.degToRad(-8);
+}
 
 renderer.render(scene, camera);
 ready.textContent = params.get('export') === 'data-url' ? canvas.toDataURL('image/png') : 'ready';
