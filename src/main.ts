@@ -6,10 +6,11 @@ import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { shouldUpdateOrbitControls } from './camera-focus';
 import {
-  featuredReconstructionIds,
+  featuredArtifactIds,
   heritageArtifacts,
   type HeritageArtifact,
 } from './data/heritage-artifacts';
+import { createEvenOrbitPhases, getOrbitPosition } from './orbit-layout';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app) throw new Error('Missing #app root');
@@ -33,9 +34,9 @@ app.innerHTML = `
 
 interface OrbitBody {
   artifact: HeritageArtifact;
-  pivot: THREE.Object3D;
   body: THREE.Group;
   visual: THREE.Group;
+  orbitPhase: number;
   baseScale: number;
 }
 
@@ -49,15 +50,20 @@ const artifactPanel = panel;
 const statusNode = loadStatus;
 const captionNode = orbitCaption;
 
-const renderer = new THREE.WebGLRenderer({ canvas: solarCanvas, antialias: true, powerPreference: 'high-performance' });
+const renderer = new THREE.WebGLRenderer({
+  canvas: solarCanvas,
+  antialias: true,
+  alpha: true,
+  powerPreference: 'high-performance',
+});
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.08;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x000000, 0);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x080b0f);
 scene.fog = new THREE.Fog(0x080b0f, 10, 27);
 
 const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 80);
@@ -142,25 +148,19 @@ function renderPanel(artifact: HeritageArtifact | null): void {
   if (!artifact) {
     artifactPanel.innerHTML = `
       <div class="panel-kicker">Heritage Orbit</div>
-      <h2>物体太阳系</h2>
-      <p class="subtitle">6 个筛选后的高质量重建对象组成文物太阳系。</p>
-      <dl>
-        <div><dt>后端</dt><dd>MapAnything 离线重建，保留 12 视角扫描资产与 36 视角彩色点云。</dd></div>
-        <div><dt>交互</dt><dd>点击任意物体，太阳系暂停，物体放大后可拖拽旋转。</dd></div>
-        <div><dt>资产</dt><dd>公开扫描资产、高清参考图与程序化近似几何组合。</dd></div>
-      </dl>
+      <h2>文物太阳系</h2>
+      <p class="subtitle">六件来自不同文明与时代的代表性文物，沿行星轨道共同展出。</p>
       <div class="sample-picker">
-        <div class="sample-picker-label">36-view point clouds</div>
-        ${featuredReconstructionIds.map((id) => {
+        <div class="sample-picker-label">文物目录</div>
+        ${featuredArtifactIds.map((id) => {
           const item = heritageArtifacts.find((artifact) => artifact.id === id);
           if (!item) return '';
           return `<button class="sample-button" data-artifact-id="${item.id}" type="button">
             <span>${item.title}</span>
-            <small>${item.reconstructionQuality === 'experimental' ? '实验结果' : '推荐展示'}</small>
+            <small>${item.orbitRole}</small>
           </button>`;
         }).join('')}
       </div>
-      <p class="body-copy">这个版本面向课堂 presentation：删掉低质量占位模型，只保留可说明多视角输入、遮罩重建和 Web 3D 展示链路的资产。</p>
     `;
     captionNode.textContent = '点击任意文物进入观察模式';
     artifactPanel.querySelectorAll<HTMLButtonElement>('[data-artifact-id]').forEach((button) => {
@@ -181,31 +181,15 @@ function renderPanel(artifact: HeritageArtifact | null): void {
     ${artifact.image ? `<img class="artifact-image" src="${artifact.image}" alt="${artifact.title}" />` : ''}
     <dl>
       <div><dt>年代</dt><dd>${artifact.period}</dd></div>
-      <div><dt>角色</dt><dd>${artifact.orbitRole}，${artifact.orbitRole === '太阳' ? '中心不公转，仅自转' : '围绕太阳公转并自转'}</dd></div>
-      <div><dt>重建</dt><dd>${describeReconstruction(artifact)}</dd></div>
     </dl>
     <p class="body-copy">${artifact.body}</p>
     <ul class="detail-list">
       ${artifact.details.map((detail) => `<li>${detail}</li>`).join('')}
     </ul>
-    <p class="source-copy">${artifact.source}</p>
   `;
   captionNode.textContent = `${artifact.orbitRole} · ${artifact.title}`;
 
   document.querySelector<HTMLButtonElement>('#returnButton')?.addEventListener('click', clearSelection);
-}
-
-function describeReconstruction(artifact: HeritageArtifact): string {
-  const views = artifact.reconstructionViews ?? 12;
-  if (artifact.model.representation !== 'point-cloud') {
-    return `GLB / MapAnything ${views} 视角离线重建`;
-  }
-
-  const pointCount = artifact.model.pointCount
-    ? `${Math.round(artifact.model.pointCount / 10000)} 万点`
-    : '彩色点云';
-  const quality = artifact.reconstructionQuality === 'experimental' ? ' / 实验结果' : '';
-  return `MapAnything ${views} 视角 / ${pointCount}${quality}`;
 }
 
 function makeMaterial(artifact: HeritageArtifact): THREE.MeshStandardMaterial {
@@ -269,11 +253,13 @@ function stylePointCloud(root: THREE.Object3D, artifact: HeritageArtifact): void
 function normalizeObject(root: THREE.Object3D, targetSize: number): void {
   const box = new THREE.Box3().setFromObject(root);
   const size = box.getSize(new THREE.Vector3());
-  const center = box.getCenter(new THREE.Vector3());
   const maxSide = Math.max(size.x, size.y, size.z) || 1;
   const scale = targetSize / maxSide;
   root.scale.multiplyScalar(scale);
-  root.position.sub(center.multiplyScalar(scale));
+  root.updateMatrixWorld(true);
+  const scaledCenter = new THREE.Box3().setFromObject(root).getCenter(new THREE.Vector3());
+  root.position.sub(scaledCenter);
+  root.updateMatrixWorld(true);
 }
 
 function createBronzeTree(artifact: HeritageArtifact): THREE.Group {
@@ -397,16 +383,30 @@ async function loadModel(artifact: HeritageArtifact): Promise<THREE.Group> {
   return group;
 }
 
-function createOrbitLine(radius: number, color: number): THREE.Line {
+function createOrbitTrack(radius: number, color: number): THREE.Group {
+  const track = new THREE.Group();
   const points: THREE.Vector3[] = [];
   for (let i = 0; i <= 160; i += 1) {
     const a = (i / 160) * Math.PI * 2;
     points.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
   }
-  return new THREE.Line(
+  const line = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(points),
-    new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.26 }),
+    new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.72 }),
   );
+  const band = new THREE.Mesh(
+    new THREE.RingGeometry(radius - 0.025, radius + 0.025, 192),
+    new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.22,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    }),
+  );
+  band.rotation.x = Math.PI / 2;
+  track.add(band, line);
+  return track;
 }
 
 function createSaturnRing(): THREE.Mesh {
@@ -420,23 +420,30 @@ function createSaturnRing(): THREE.Mesh {
 
 async function initBodies(): Promise<void> {
   let loaded = 0;
+  let orbitIndex = 0;
+  const orbitingArtifacts = heritageArtifacts.filter((artifact) => artifact.orbitRadius > 0);
+  const orbitPhases = createEvenOrbitPhases(orbitingArtifacts.length);
+
   for (const artifact of heritageArtifacts) {
-    const pivot = new THREE.Object3D();
     const body = new THREE.Group();
     const visual = await loadModel(artifact);
+    let orbitPhase = 0;
 
     if (artifact.orbitRadius > 0) {
-      scene.add(createOrbitLine(artifact.orbitRadius, artifact.model.accent));
-      body.position.x = artifact.orbitRadius;
-      pivot.rotation.y = loaded * 0.42;
+      scene.add(createOrbitTrack(artifact.orbitRadius, artifact.model.accent));
+      orbitPhase = orbitPhases[orbitIndex];
+      const position = getOrbitPosition(artifact.orbitRadius, orbitPhase);
+      body.position.set(position.x, 0, position.z);
+      orbitIndex += 1;
+    } else {
+      body.position.set(0, 0, 0);
     }
 
     if (artifact.id === 'armadillo') visual.add(createSaturnRing());
 
     body.add(visual);
-    pivot.add(body);
-    scene.add(pivot);
-    bodies.push({ artifact, pivot, body, visual, baseScale: 1 });
+    scene.add(body);
+    bodies.push({ artifact, body, visual, orbitPhase, baseScale: 1 });
     loaded += 1;
     statusNode.textContent = `加载资产 ${loaded}/${heritageArtifacts.length}`;
   }
@@ -538,8 +545,16 @@ function animate(): void {
   const delta = Math.min(clock.getDelta(), 0.033);
   for (const item of bodies) {
     if (!isInspecting) {
-      item.pivot.rotation.y += item.artifact.orbitSpeed * delta;
-      item.visual.rotation.y += item.artifact.spinSpeed * delta;
+      if (item.artifact.orbitRadius > 0) {
+        item.orbitPhase += item.artifact.orbitSpeed * delta;
+        const position = getOrbitPosition(item.artifact.orbitRadius, item.orbitPhase);
+        item.body.position.set(position.x, 0, position.z);
+      } else {
+        item.body.position.set(0, 0, 0);
+      }
+      if (item.artifact.spinSpeed > 0) {
+        item.visual.rotation.y += item.artifact.spinSpeed * delta;
+      }
     }
     const target = selected?.id === item.artifact.id ? 3.15 : 1;
     scaleTarget.set(target, target, target);
