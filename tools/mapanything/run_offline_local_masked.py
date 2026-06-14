@@ -8,13 +8,17 @@ from time import time
 import numpy as np
 import torch
 import trimesh
-from natsort import natsorted
 from PIL import Image
 
 from mapanything.utils.device import get_device
 from mapanything.utils.geometry import depthmap_to_world_frame
 from mapanything.utils.hf_utils.hf_helpers import initialize_mapanything_local
 from mapanything.utils.image import load_images
+
+try:
+    from natsort import natsorted
+except ImportError:
+    natsorted = sorted
 
 
 def _force_cached_dinov2_ref() -> None:

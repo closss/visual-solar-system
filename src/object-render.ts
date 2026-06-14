@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { heritageArtifacts, type HeritageArtifact } from './data/heritage-artifacts';
-import { parseRenderFlags, parseRenderPose } from './multiview-render-config';
+import { createMultiviewPoses, parseRenderFlags, parseRenderPose } from './multiview-render-config';
 
 const root = document.querySelector<HTMLDivElement>('#renderRoot');
 if (!root) throw new Error('Missing render root');
@@ -22,6 +22,8 @@ root.innerHTML = `
 const canvas = document.querySelector<HTMLCanvasElement>('#renderCanvas');
 const ready = document.querySelector<HTMLElement>('#ready');
 if (!canvas || !ready) throw new Error('Missing render nodes');
+const renderCanvas = canvas;
+const readyNode = ready;
 
 const params = new URLSearchParams(window.location.search);
 const artifactId = params.get('artifact') ?? 'stanford-bunny';
@@ -32,6 +34,7 @@ const pose = parseRenderPose(params);
 const renderFlags = parseRenderFlags(params);
 const useStudio = renderFlags.studio;
 const maskMode = renderFlags.mask;
+const batchMode = params.get('batch') === '1';
 const artifact = heritageArtifacts.find((item) => item.id === artifactId) ?? heritageArtifacts[3];
 
 const renderer = new THREE.WebGLRenderer({
@@ -48,6 +51,7 @@ renderer.setPixelRatio(1);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(maskMode ? 0x000000 : useStudio ? 0xd8dde2 : 0xf4f0e8);
+const maskMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -143,8 +147,10 @@ function createStudio(): THREE.Group {
   return studio;
 }
 
-if (useStudio && !maskMode) {
-  scene.add(createStudio());
+const studio = useStudio ? createStudio() : null;
+if (studio) {
+  scene.add(studio);
+  studio.visible = !maskMode;
 }
 
 function materialFor(item: HeritageArtifact): THREE.MeshStandardMaterial {
@@ -265,7 +271,7 @@ async function loadGeometryModel(item: HeritageArtifact): Promise<THREE.Group> {
         node.castShadow = !maskMode;
         node.receiveShadow = !maskMode;
         if (maskMode) {
-          node.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+          node.material = maskMaterial;
         } else if (!node.material) {
           node.material = materialFor(item);
         }
@@ -295,9 +301,27 @@ normalize(object);
 object.rotation.y = THREE.MathUtils.degToRad(angle);
 scene.add(object);
 
-if (useStudio) {
-  const azimuth = THREE.MathUtils.degToRad(pose.azimuth);
-  const elevation = THREE.MathUtils.degToRad(pose.elevation);
+const originalMaterials = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
+object.traverse((node) => {
+  if (node instanceof THREE.Mesh) {
+    originalMaterials.set(node, node.material);
+  }
+});
+
+function setMaskMode(enabled: boolean): void {
+  scene.background = new THREE.Color(enabled ? 0x000000 : useStudio ? 0xd8dde2 : 0xf4f0e8);
+  if (studio) studio.visible = useStudio && !enabled;
+  object.traverse((node) => {
+    if (!(node instanceof THREE.Mesh)) return;
+    node.castShadow = !enabled;
+    node.receiveShadow = !enabled;
+    node.material = enabled ? maskMaterial : originalMaterials.get(node) ?? materialFor(artifact);
+  });
+}
+
+function setCameraPose(renderPose: Pick<typeof pose, 'azimuth' | 'elevation'>): void {
+  const azimuth = THREE.MathUtils.degToRad(renderPose.azimuth);
+  const elevation = THREE.MathUtils.degToRad(renderPose.elevation);
   const radius = 3.25;
   camera.position.set(
     Math.sin(azimuth) * Math.cos(elevation) * radius,
@@ -305,9 +329,36 @@ if (useStudio) {
     Math.cos(azimuth) * Math.cos(elevation) * radius,
   );
   camera.lookAt(0, 0, 0);
-} else {
+}
+
+function renderFrame(renderPose: Pick<typeof pose, 'azimuth' | 'elevation'>, enabledMask: boolean): string {
+  setMaskMode(enabledMask);
+  setCameraPose(renderPose);
+  renderer.render(scene, camera);
+  return renderCanvas.toDataURL('image/png');
+}
+
+if (!useStudio) {
   object.rotation.x = THREE.MathUtils.degToRad(-8);
 }
 
-renderer.render(scene, camera);
-ready.textContent = params.get('export') === 'data-url' ? canvas.toDataURL('image/png') : 'ready';
+declare global {
+  interface Window {
+    renderObjectFrames?: (
+      renderPoses: Array<{ index: number; azimuth: number; elevation: number }>,
+    ) => Array<{ index: number; image: string; mask: string }>;
+  }
+}
+
+window.renderObjectFrames = (renderPoses) => renderPoses.map((renderPose) => ({
+  index: renderPose.index,
+  image: renderFrame(renderPose, false),
+  mask: renderFrame(renderPose, true),
+}));
+
+const dataUrl = renderFrame(pose, maskMode);
+if (batchMode) {
+  readyNode.textContent = JSON.stringify(window.renderObjectFrames?.(createMultiviewPoses()) ?? []);
+} else {
+  readyNode.textContent = params.get('export') === 'data-url' ? dataUrl : 'ready';
+}

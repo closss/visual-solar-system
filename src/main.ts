@@ -126,6 +126,7 @@ const focusTarget = new THREE.Vector3();
 const desiredCamera = new THREE.Vector3();
 const desiredTarget = new THREE.Vector3();
 const scaleTarget = new THREE.Vector3();
+const focusBox = new THREE.Box3();
 const bodies: OrbitBody[] = [];
 let selected: HeritageArtifact | null = null;
 let isInspecting = false;
@@ -142,14 +143,14 @@ function renderPanel(artifact: HeritageArtifact | null): void {
     artifactPanel.innerHTML = `
       <div class="panel-kicker">Heritage Orbit</div>
       <h2>物体太阳系</h2>
-      <p class="subtitle">9 个主轨道对象与 2 个多视角重建样本组成文物太阳系。</p>
+      <p class="subtitle">6 个筛选后的高质量重建对象组成文物太阳系。</p>
       <dl>
-        <div><dt>后端</dt><dd>MapAnything 离线重建，包含 12 视角基准与 36 视角彩色点云。</dd></div>
+        <div><dt>后端</dt><dd>MapAnything 离线重建，保留 12 视角扫描资产与 36 视角彩色点云。</dd></div>
         <div><dt>交互</dt><dd>点击任意物体，太阳系暂停，物体放大后可拖拽旋转。</dd></div>
         <div><dt>资产</dt><dd>公开扫描资产、高清参考图与程序化近似几何组合。</dd></div>
       </dl>
       <div class="sample-picker">
-        <div class="sample-picker-label">36-view reconstructions</div>
+        <div class="sample-picker-label">36-view point clouds</div>
         ${featuredReconstructionIds.map((id) => {
           const item = heritageArtifacts.find((artifact) => artifact.id === id);
           if (!item) return '';
@@ -159,7 +160,7 @@ function renderPanel(artifact: HeritageArtifact | null): void {
           </button>`;
         }).join('')}
       </div>
-      <p class="body-copy">这个版本面向课堂 presentation：先展示太阳系整体结构，再点击单个物体进入文物介绍与重建结果观察。</p>
+      <p class="body-copy">这个版本面向课堂 presentation：删掉低质量占位模型，只保留可说明多视角输入、遮罩重建和 Web 3D 展示链路的资产。</p>
     `;
     captionNode.textContent = '点击任意文物进入观察模式';
     artifactPanel.querySelectorAll<HTMLButtonElement>('[data-artifact-id]').forEach((button) => {
@@ -548,7 +549,8 @@ function animate(): void {
   if (isInspecting && selected) {
     const selectedBody = findBody(selected.id);
     if (selectedBody) {
-      selectedBody.body.getWorldPosition(focusTarget);
+      focusBox.setFromObject(selectedBody.visual);
+      focusBox.getCenter(focusTarget);
       desiredTarget.copy(focusTarget).add(new THREE.Vector3(0, 0.25, 0));
       desiredCamera.copy(desiredTarget).add(new THREE.Vector3(0, 1.35, 4.8));
       camera.position.lerp(desiredCamera, 0.08);

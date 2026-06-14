@@ -5,6 +5,17 @@ import {
 } from '../src/data/heritage-artifacts';
 
 describe('MapAnything point-cloud artifacts', () => {
+  it('keeps only the curated high-quality reconstruction set in the solar system', () => {
+    expect(heritageArtifacts.map((item) => item.id)).toEqual([
+      'nefertiti',
+      'fangyi',
+      'cosmic-buddha',
+      'apollo-11-command-module',
+      'hoa-hakananai-a',
+      'incense-burner',
+    ]);
+  });
+
   it('registers the compact Nefertiti reconstruction as a 36-view point cloud', () => {
     const artifact = heritageArtifacts.find((item) => item.id === 'nefertiti');
 
@@ -13,14 +24,22 @@ describe('MapAnything point-cloud artifacts', () => {
     expect(artifact?.reconstructionViews).toBe(36);
   });
 
-  it('keeps Lewis Queen labeled as an experimental point-cloud result', () => {
-    const artifact = heritageArtifacts.find((item) => item.id === 'lewis-queen');
+  it('registers the three remaining assets as 36-view point clouds', () => {
+    for (const id of ['apollo-11-command-module', 'hoa-hakananai-a', 'incense-burner']) {
+      const artifact = heritageArtifacts.find((item) => item.id === id);
 
-    expect(artifact?.model.representation).toBe('point-cloud');
-    expect(artifact?.reconstructionQuality).toBe('experimental');
+      expect(artifact?.model.representation).toBe('point-cloud');
+      expect(artifact?.reconstructionViews).toBe(36);
+      expect(artifact?.model.pointCount).toBe(400000);
+    }
   });
 
   it('features both 36-view reconstructions in the overview', () => {
-    expect(featuredReconstructionIds).toEqual(['nefertiti', 'lewis-queen']);
+    expect(featuredReconstructionIds).toEqual([
+      'nefertiti',
+      'apollo-11-command-module',
+      'hoa-hakananai-a',
+      'incense-burner',
+    ]);
   });
 });
