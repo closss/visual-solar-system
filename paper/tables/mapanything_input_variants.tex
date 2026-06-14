@@ -1,0 +1,138 @@
+
+
+\caption{\label{tab:supplementary_mapanything_input_variants}%
+  \textbf{\coolname demonstrates remarkable flexibility in handling diverse input configurations, with performance improving as additional modalities are provided.}
+  While our universal training supports 64 (i.e., $2^6$) possible input combinations, we highlight 12 representative combinations in this table.
+  We report the absolute relative error ($\absrel$) and the inlier ratio at a relative threshold of 1.03\% ($\threshI$) for 50 views, averaged over ETH3D, ScanNet++ v2 \& TAv2.
+  `K' denotes camera intrinsics and `sparse' depth indicates that 90\% of the valid depth is randomly masked out.
+}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.5mm}
+\begin{tabular}{cccccccccc}
+\toprule
+\multicolumn{7}{c}{\textbf{\coolname Inputs}}
+& \multicolumn{3}{c}{\textbf{Avg. Performance}} \\
+\cmidrule(lr){1-7} \cmidrule(lr){8-10}
+& & & \multicolumn{2}{c}{\textbf{Depth}} & \multicolumn{2}{c}{\textbf{Metric Scale}}
+& \textbf{Scale}
+& \multicolumn{2}{c}{\textbf{Points}} \\
+\textbf{Imgs} & \textbf{K} & \textbf{Poses}
+& \textbf{Dense} & \textbf{Sparse} & \textbf{Pose} & \textbf{Depth}
+& $\absrel\downarrow$
+& $\absrel\downarrow$ & $\threshI\uparrow$
+\\
+\midrule
+\multicolumn{10}{l}{\textbf{a) Images Only}} \\[0.4em]
+\greencheck & \redx & \redx & \redx & \redx & \redx & \redx         
+  & 0.13   
+  & 0.15           
+  & 58.6       
+  \\
+
+\arrayrulecolor{lightgray}\midrule
+\multicolumn{10}{l}{\textbf{b) Images \& Intrinsics}} \\[0.4em]
+\greencheck & \greencheck & \redx & \redx & \redx & \redx & \redx         
+  & 0.13   
+  & 0.14           
+  & 61.5       
+  \\
+
+\arrayrulecolor{lightgray}\midrule
+\multicolumn{10}{l}{\textbf{c) Images \& Poses}} \\[0.4em]
+\greencheck & \redx & \greencheck & \redx & \redx & \redx & \redx         
+  & 0.11   
+  & 0.04           
+  & 76.8       
+  \\
+\greencheck & \redx & \greencheck & \redx & \redx & \greencheck & \redx         
+  & 0.02   
+  & 0.04           
+  & 75.3       
+  \\
+
+\arrayrulecolor{lightgray}\midrule
+\multicolumn{10}{l}{\textbf{d) Images, Intrinsics \& Poses}} \\[0.4em]
+\greencheck & \greencheck & \greencheck & \redx & \redx & \redx & \redx         
+  & 0.11   
+  & 0.03           
+  & 80.5       
+  \\
+\greencheck & \greencheck & \greencheck & \redx & \redx & \greencheck & \redx         
+  & 0.02   
+  & 0.04           
+  & 78.7       
+  \\
+
+\arrayrulecolor{lightgray}\midrule
+\multicolumn{10}{l}{\textbf{e) Images \& Depth}} \\[0.4em]
+\greencheck & \greencheck & \redx & \redx & \greencheck & \redx & \greencheck         
+  & 0.04   
+  & 0.11           
+  & 77.2       
+  \\
+\greencheck & \greencheck & \redx & \greencheck & \redx & \redx & \greencheck         
+  & 0.05   
+  & 0.11           
+  & 67.8       
+  \\
+
+\arrayrulecolor{lightgray}\midrule
+\multicolumn{10}{l}{\textbf{f) Images, Intrinsics, Poses \& Depth}} \\[0.4em]
+\greencheck & \greencheck & \greencheck & \redx & \greencheck & \redx & \redx         
+  & 0.12   
+  & 0.02           
+  & 92.0       
+  \\
+\greencheck & \greencheck & \greencheck & \greencheck & \redx & \redx & \redx         
+  & 0.12   
+  & 0.02           
+  & 83.0       
+  \\
+\greencheck & \greencheck & \greencheck & \redx & \greencheck & \greencheck & \greencheck         
+  & 0.01   
+  & 0.02           
+  & 94.9       
+  \\
+\greencheck & \greencheck & \greencheck & \greencheck & \redx & \greencheck & \greencheck         
+  & 0.01   
+  & 0.02           
+  & 84.4       
+  \\
+
+\arrayrulecolor{black}\bottomrule
+\end{tabular}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

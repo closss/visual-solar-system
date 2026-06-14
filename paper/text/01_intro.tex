@@ -1,0 +1,63 @@
+\vspace{-1em}
+\section{Introduction}
+\label{sec:intro}
+
+The problem of image-based 3D reconstruction has traditionally been solved using
+structure-from-motion (SfM) \cite{SchoenF2016, PanBPS2024},
+photometric stereo \cite{Woodh1980},
+shape-from-shading \cite{horn1989obtaining},
+and so on.
+To make the problem tractable, classic approaches
+decompose it into distinct tasks, such as
+feature detection \cite{Lowe2004} and matching \cite{SarliDMR2020},
+two-view pose estimation \cite{Niste2004},
+camera calibration \cite{VeichSLP2024} and resectioning \cite{SattlLK2011},
+rotation \cite{HartlTDL2013} and translation averaging \cite{PanBPS2024},
+bundle adjustment (BA) \cite{TriggMHF2000}, multi-view stereo (MVS) \cite{SchoenZFP2016},
+and/or monocular surface estimation \cite{HoiemEH2005a}.
+Recent work has demonstrated tremendous potential in solving these problems in a unified way using feed-forward architectures \cite{WangLCCR2024, LeroyCR2024, ZhangLKYRT2024, WangTBXLSWXZ2024, IzquiSFGTCABW2025, DongWLCFKY2025}.
+
+While prior feed-forward work has approached the different tasks separately or by not leveraging all the available input modalities, we present a unified end-to-end model for diverse 3D reconstruction tasks.
+Our method \coolname can be used to solve the most general uncalibrated SfM problem as well as various combinations of sub-problems, such as calibrated SfM or multi-view stereo, monocular depth estimation, camera localization, and metric depth completion.
+To enable the training of such a unified model, we:
+(1) introduce a flexible input scheme that supports various geometric modalities when available,
+(2) propose a suitable output space that supports all of these diverse tasks, and
+(3) discuss flexible dataset aggregation and standardization.
+
+
+\coolname's key insight to address these challenges is the use of a \emph{factored} representation of multi-view scene geometry.
+Instead of directly representing the scene as a collection of pointmaps, we represent the scene as a collection of depth maps, local raymaps, camera poses, and a metric scale factor that upgrade local reconstructions into a globally consistent metric frame.
+We use such a factored representation to represent both the outputs and (optional) inputs for \coolname, allowing it to take advantage of auxiliary geometric inputs when available.
+For example, robotic applications \cite{HuXJFPKKXZFZOKASJBWSWKXB2023, KeethKJYSRL2024, ho2024map, AlamaBHKQWHKS2025} may have knowledge of camera intrinsics (rays) and/or extrinsics (poses).
+Finally, a significant benefit of our factored representation is that it allows \coolname to be effectively trained from diverse datasets with partial annotations, for example, datasets that may be annotated with only non-metric ``up-to-scale'' geometry.
+In summary, we make the following main contributions:
+\begin{enumerate}
+    \item \textbf{Unified Feed-Forward Model}
+    for multi-view metric 3D reconstruction that supports more than 12 different problem configurations.
+    The end-to-end transformer is trained more efficiently than a naive set of bespoke models and leverages not only image inputs, but also optional geometric information such as camera intrinsics, extrinsics, depth, and/or metric scale factor, when available.
+
+    \vspace{0.6em}
+
+    \item \textbf{Factored Scene Representation}
+    that flexibly enables decoupled inputs and effective prediction of metric 3D reconstructions.
+    Our model computes multi-view pixel-wise scene geometry and cameras directly, without redundancies or costly post-processing. 
+
+    \vspace{0.6em}
+
+    \item \textbf{State-of-the-Art Performance}
+    compared to other feed-forward models, matching or surpassing expert models that are tailored for specific, isolated tasks.
+
+    \vspace{0.6em}
+    
+    \item \textbf{Open Source Release}
+    of (a) code for data processing, inference, benchmarking, training \& ablations, and (b) a pre-trained \coolname model under the permissive Apache 2.0 license, thereby providing an extensible \& modular framework plus model to facilitate future research on building 3D/4D foundation models.
+
+\end{enumerate}
+ 
+
+
+
+
+
+
+

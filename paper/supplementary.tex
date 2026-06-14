@@ -1,0 +1,233 @@
+\clearpage
+\maketitlesupplementary
+\appendix
+
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{S.\arabic{figure}}
+\renewcommand{\thetable}{S.\arabic{table}}
+\renewcommand{\theequation}{S.\arabic{equation}}
+
+
+\input{text/06_acknowledgments}
+
+
+
+
+
+\vspace{-0.8em}
+
+\section{Implementation Details}
+
+We use the AdamW \cite{KingmB2015} optimizer with a peak learning rate of $5\cdot10^{-6}$ for the pre-trained DINOv2 encoder \cite{OquabDMVSKFHMEABGHHLMRSSXJMLJB2024}, and $10^{-4}$ for everything else.
+For the learning rate schedule, we employ a 10\% linear warmup to the peak and subsequently use a half-cycle cosine decay to a $100\times$ lower value.
+For the optimizer, we also use a weight decay of 0.05, $\beta_1 \!=\! 0.9$, and $\beta_2 \!=\! 0.95$.
+For every batch, the input images and dense geometric quantities are resized and cropped so that the maximum dimension is 518 pixels and aspect ratio is randomized from 3:1 to 1:2.
+We use color jitter, Gaussian blur, and grayscale conversion as augmentations.
+We further employ mixed precision training and gradient checkpointing for DINOv2 encoder to improve training efficiency and GPU memory utilization.
+We also use gradient norm clipping with a threshold of 1 for additional training stability.
+Lastly, we use a dynamic batching scheme where the batch size is changed based on the number of views in a batch.
+We find that it is effective to train the model with a two-stage curriculum (420K steps):
+(1) 6 days on 64 H200-140GB GPUs with an effective batch size varying from 768 to 1536 with the number of views varying from 4 to 2, respectively, and
+(2) 4 days on 64 H200-140GB GPUs with a 10$\times$ lower peak LR and an effective batch size that varies from 128 to 1536 with views varying from 24 to 2, respectively.
+The training setup for the ablations presented in \cref{para:insights} is the same as above where the only difference is the effective batch size (8$\times$ lower but leading to sufficient convergence).
+
+\vspace{-0.7em}
+
+\section{Additional Evaluation}
+
+\paragraph{Speed \& Memory Profiling:} We present profiling results for \coolname and other concurrent models in \cref{fig:profiling}.
+
+\vspace{-0.15em}
+
+\paragraph{Flexibility of Input Configurations:}
+
+We present a representative set of input configurations for \coolname in \cref{tab:supplementary_mapanything_input_variants}, where the performance of \coolname improves as more modalities are provided.
+The universal training of \coolname with varying selection probabilities for geometric inputs as 6 factors (as described in \cref{para:aug_training}) enables support for 64 exhaustive input combinations.
+While we primarily benchmark cases where the input modality is available for all views, \coolname can also support optional geometric inputs for a subset of the input views.
+
+\vspace{-0.15em}
+
+
+
+
+\paragraph{Comparison of \coolname Variants:}
+
+We provide a comparison between different variants of \coolname in \cref{fig:mapa_variants_comparison_graphs}, where the performance of VGGT~\cite{WangCKVRN2025} is provided as a baseline.
+First, we show that our two-stage training with covisibility-based view sampling is very effective, where the \coolname model trained for up to 4 views as input already shows strong generalization to a significantly higher number of views.
+We also compare the performance of our different open-source models, where, as described in \cref{tab:datasets}, the Apache model is trained on 6 datasets, while the CC-BY-NC one is trained on 13.
+While we observe a decrease in performance, the Apache variant is still competitive with the VGGT baseline and its performance further improves as additional geometric inputs are provided.
+We also provide a comparison between the various versions of the publicly released models in \cref{fig:v1_1_vs_v1}.
+
+\vspace{-0.15em}
+
+\paragraph{Design Choices:}
+
+As shown in \cref{tab:ablations_loss_attention}, log scaling and alternating attention are key for strong performance when evaluating with 50 views, well beyond the 4 used in training.
+
+\vspace{-0.15em}
+
+\paragraph{Qualitative Examples:}
+
+\cref{fig:qual_diversity} and \cref{fig:qual_geometric_inputs} showcase the versatility of \coolname.
+
+\vspace{-0.15em}
+
+\paragraph{Comparison with Concurrent Models:}
+
+\cref{fig:v1_1_bench_average} showcases the average results, while \cref{fig:v1_1_bench_img_only_per_dataset} and \cref{fig:v1_1_bench_multi_modal_per_dataset} show the performance for each individual dataset.
+
+
+
+
+
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figs/Profiling_Results/profiling_speed.pdf}
+    \end{subfigure}
+    \hfill %
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figs/Profiling_Results/profiling_memory.pdf}
+    \end{subfigure}
+
+    \caption{\label{fig:profiling}
+    \textbf{\coolname shows the best speed and memory usage profile in comparison to latest concurrent state-of-the-art multi-view feed-forward reconstruction models.} 
+    We profile all the models on a H200-140GB GPU using appropriate floating point precision autocast.
+    Upon profiling the naive inference call of \coolname and comparing to concurrent methods, we notice a memory bottleneck in the dense per-pixel regression across views, since our implementation of the dense head is closer to the original DPT~\cite{RanftBK2021}.
+    To alleviate this issue, i.e., in \coolname (Mem Efficient), we run the per-view decodings in a mini-batched loop, where in the above profiling the mini-batch size is 1.
+    We find that this looping leads to negligible trade-off in speed while significantly reducing the memory usage.
+    }
+\end{figure*}
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[trim={0cm 0cm 0cm 0.9cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_apache/results_v1_1_bench_apache_average.pdf}
+    \caption{\label{fig:mapa_variants_comparison_graphs}%
+    \textbf{The Apache and first stage (up to 4 views) training variants of \coolname show strong dense multi-view reconstruction for input views ranging from 2 to 100 and under different input configurations.}
+    We report the absolute relative error ($\absrel$), the inlier ratio at a relative threshold of $1.03\%$ ($\threshI$), the average aligned trajectory error ($ATE~RMSE$), the area under the curve at an error threshold of 5° ($AUC@5$), and the average angular error ($err$) in degrees (°), averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    }
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[!t]
+    \centering
+
+    \includegraphics[trim={0cm 0cm 0cm 0.9cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_present_vs_past/results_v1_1_bench_present_vs_past_average.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 0cm 0cm 0.9cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_multi_modal_present_vs_past/results_v1_1_bench_multi_modal_present_vs_past_average.pdf}
+    
+    \caption{\label{fig:v1_1_vs_v1}%
+    \textbf{Dense multi-view reconstruction benchmarking comparing the performance of the latest checkpoint as of January 20th 2026 (\coolname) to the one released in September 2025 (\coolname-Prev).}
+    The primary difference between the two variants (\textit{latest} \& \textit{previous}) is: (a) Encoder: First 24 layers of 1536-dim DINOv2 ViT-G (\textit{latest}) vs All 24 layers of 1024-dim DINOv2 ViT-L (\textit{previous}), (b) Multi-View Transformer: Last 16 layers of 1536-dim DINOv2 ViT-G (\textit{latest}) vs 24 layers of a randomly initialized 736-dim ViT-B size transformer.
+    Both across large-scale trainings and ablation settings, we find that the DINOv2 initialization for the multi-view transformer helps significantly with convergence speed and final performance.
+    In the above plots, we report the absolute relative error ($\absrel$), the inlier ratio at a relative threshold of $1.03\%$ ($\threshI$), the average aligned trajectory error ($ATE~RMSE$), the area under the curve at an error threshold of 5° ($AUC@5$), and the average angular error ($err$) in degrees (°), averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    }
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[!ht]
+    \centering
+    \includegraphics[trim={0cm 8cm 0cm 0cm},clip,width=\linewidth]{figs/Qual_Diversity_MapAnything.pdf}
+    \caption{\textbf{\coolname provides high-fidelity dense geometric reconstructions} across varying domains and number of views. While \coolname can support a flexible set of inputs, here we are showcasing its capabilities only using images as input. In particular, we show results across a varying number of captured views and from different domains such as indoor, landscape, art, object-centric, and off-road. It also works well on monocular and art images despite not being trained for it.
+}
+    \label{fig:qual_diversity}
+\end{figure*}
+
+\begin{table*}[t]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \input{tables/mapanything_input_variants}
+    \end{minipage}
+    \hfill %
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \input{tables/ablations_loss_attention}
+    \end{minipage}
+\end{table*}
+
+
+
+\clearpage
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figs/MapAnything_Geometric_Input_Benefits.pdf}
+    \caption{\textbf{Auxiliary geometric inputs improve feed-forward performance of \coolname.} \texttt{(Top)} While \coolname \& other baselines using 100 input images show duplication of 3D structure, when provided with the camera calibration and poses, the 3D reconstruction significantly improves, showing aligned geometry. \texttt{(Middle)} \coolname using images only as input shows non-precise metric scale estimation on ETH3D (a zero-shot dataset). However, when the calibration and metric poses are provided as additional input, the estimated metric scale significantly improves and approximately matches the ground truth. \texttt{(Bottom-Left)} We show that \coolname can leverage a sparse metric point cloud as input to perform dense metric depth completion. \texttt{(Bottom-Right)} Despite not being trained for object-centric data, we show how the scene geometry and cameras change based on the input provided.
+    }
+    \label{fig:qual_geometric_inputs}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[!t]
+    \centering
+
+    \includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_image_only/results_v1_1_bench_latest_image_only_average.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_multi_modal/results_v1_1_bench_latest_multi_modal_average.pdf}
+    
+    \caption{\label{fig:v1_1_bench_average}%
+    \textbf{\coolname showcases state-of-the-art and competitive dense multi-view reconstruction performance in comparison to latest public concurrent state-of-the-art models as of January 20th 2026, i.e., DA3-Nested \& $\pi^3$-X, despite being trained on significantly less amount of data.}
+    We report the absolute relative error ($\absrel$), the inlier ratio at a relative threshold of $1.03\%$ ($\threshI$), the average aligned trajectory error ($ATE~RMSE$), the area under the curve at an error threshold of 5° ($AUC@5$), and the average angular error ($err$) in degrees (°), averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    }
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[!t]
+    \centering
+
+    \includegraphics[trim={0cm 2cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_image_only/results_v1_1_bench_latest_image_only_eth3d.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 2cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_image_only/results_v1_1_bench_latest_image_only_snppv2.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_image_only/results_v1_1_bench_latest_image_only_tav2.pdf}
+    
+    \caption{\label{fig:v1_1_bench_img_only_per_dataset}%
+    \textbf{Dense multi-view reconstruction benchmarking across individual datasets using only images as input.}
+    We also include results for latest public concurrent state-of-the-art models as of January 20th 2026.
+    Please see \cref{fig:v1_1_bench_average} for details \& the averaged version.
+    }
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[!t]
+    \centering
+
+    \includegraphics[trim={0cm 2cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_multi_modal/results_v1_1_bench_latest_multi_modal_eth3d.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 2cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_multi_modal/results_v1_1_bench_latest_multi_modal_snppv2.pdf}
+
+    \vspace{0.3em}
+    
+    \includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=0.9\linewidth]{figs/V1_1_Benchmarking/v1_1_bench_latest_multi_modal/results_v1_1_bench_latest_multi_modal_tav2.pdf}
+    
+    \caption{\label{fig:v1_1_bench_multi_modal_per_dataset}%
+    \textbf{Dense multi-view reconstruction benchmarking across individual datasets using multi-modal inputs.}
+    We also include results for latest public concurrent state-of-the-art models as of January 20th 2026.
+    Please see \cref{fig:v1_1_bench_average} for details \& the averaged version.
+    }
+\end{figure*}
+
+
+
+\clearpage

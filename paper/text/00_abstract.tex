@@ -1,0 +1,9 @@
+\begin{abstract}
+We introduce MapAnything, a unified transformer-based feed-forward model that ingests one or more images along with optional geometric inputs such as camera intrinsics, poses, depth, or partial reconstructions, and directly regresses the metric 3D scene geometry and cameras.
+MapAnything leverages a factored representation of multi-view scene geometry, \ie, a collection of depth maps, local raymaps, camera poses, and a metric scale factor that effectively upgrades local reconstructions into a globally consistent metric frame.
+Standardizing the supervision and training across diverse datasets, along with flexible input augmentation, enables MapAnything to address a broad range of 3D vision tasks in a single feed-forward pass, including uncalibrated structure-from-motion, calibrated multi-view stereo, monocular depth estimation, camera localization, depth completion, and more.
+We provide extensive experimental analyses and model ablations demonstrating that MapAnything outperforms or matches specialist feed-forward models while offering more efficient joint training behavior, thus paving the way toward a universal 3D reconstruction backbone.
+
+
+
+\end{abstract}

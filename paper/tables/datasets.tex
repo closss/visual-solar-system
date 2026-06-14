@@ -1,0 +1,38 @@
+\begin{table}[b]
+\caption{\label{tab:datasets}%
+    \textbf{Datasets used for training and testing \coolname.}
+}
+\scriptsize
+\centering
+\newcommand{\fn}[1]{\textsuperscript{#1}}
+\setlength\tabcolsep{5pt}
+\begin{tabular}{llrc}
+\toprule
+\textbf{Dataset}                                          & \textbf{License}      & \textbf{\# Scenes} & \textbf{Metric} \\\midrule
+BlendedMVS~\cite{YaoLLZRZFQ2020}                          & CC BY 4.0             &        493         & \xmark    \\
+Mapillary Planet-Scale Depth~\cite{LopezGHBKK2020}                        & CC BY-NC-SA\fn{1}     &     71,428         & \tickmark \\
+ScanNet++ v2~\cite{YeshwLND2023}                          & Non-commercial\fn{1}  &        926         & \tickmark \\
+Spring~\cite{MehlSJNB2023}                                & CC BY 4.0             &         37         & \tickmark \\
+TartanAirV2-WB~\cite{WangZWHQWHKS2020, ZhangKLJCQKJHRSW2025}     & CC BY 4.0             &         49         & \tickmark \\
+UnrealStereo4K~\cite{TosiLSG2021}                         & MIT                   &          9         & \tickmark \\[.5em]
+\multicolumn{4}{l}{\textbf{Additionally used for our CC BY-NC model:}} \\
+Aria Synthetic Environments~\cite{AvetiXHYAPZFHOEMNB2024} & Non-commercial        &    103,890         & \tickmark \\
+DL3DV-10K~\cite{LingSTZXWYGYLLSAMKKHZBB2024}              & CC BY-NC 4.0          &     10,109         & \xmark    \\
+Dynamic Replica~\cite{KaraeRGNVR2023}                     & Non-commercial        &        523         & \tickmark \\
+MegaDepth~\cite{LiS2018}                                  & CC BY 4.0\fn{2}       &        269         & \xmark    \\
+MVS-Synth~\cite{HuangMKAH2018}                            & Non-commercial        &        120         & \tickmark \\
+ParallelDomain-4D~\cite{VanHWOSLTDZV2024}                 & Non-commercial        &      1,528         & \tickmark \\
+SAIL-VOS 3D~\cite{HuWYS2021}                              & Non-commercial        &        171         & \tickmark \\
+
+\arrayrulecolor{gray}\midrule
+
+\multicolumn{4}{l}{\textbf{Unique held-out scenes for dense up-to-N-view benchmarking:}} \\
+ETH3D~\cite{SchoepSGSSPG2017}                             & CC BY-NC-SA 4.0       &         13         & \tickmark \\
+ScanNet++ v2~\cite{YeshwLND2023}                          & Non-commercial\fn{1}  &         30         & \tickmark \\
+TartanAirV2-WB~\cite{WangZWHQWHKS2020, ZhangKLJCQKJHRSW2025}     & CC BY 4.0             &          5         & \tickmark \\
+\arrayrulecolor{black}\bottomrule
+\end{tabular}\\[.2em]
+\scriptsize{\fn{1} We obtained approval from the dataset owners that allows training and model release under a permissive license.
+\quad
+\fn{2} Crowd-sourced images with varying licenses.}
+\end{table}

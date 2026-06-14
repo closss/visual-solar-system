@@ -1,0 +1,22 @@
+\section{Limitations}
+\label{sec:limitations}
+
+While \coolname makes significant strides towards a universal multi-modal backbone for in-the-wild metric-scale 3D reconstruction, several limitations and future directions remain:
+(a) \coolname does not explicitly account for noise or uncertainty in geometric inputs.
+(b) Although this is not currently supported, the architecture can be easily extended to handle tasks where images are not available for all input views. For example, in novel view synthesis, the target views for rendering will only have cameras available as input.
+(c) While the design of \coolname supports iterative inference, it remains to be explored how effective scaling of test-time compute would be for 3D reconstruction (this ties into effectively handling noise in the inputs).
+(d) Multi-modal features are currently fused before being input; exploring more efficient ways to directly input different modalities to the transformer could be interesting.
+
+Beyond multi-task capabilities, scalability is currently limited by the one-to-one mapping between input pixels and the output scene representation.
+We believe that significant work remains in effectively representing scenes in memory and decoding them as required, especially for large scenes.
+Our current scene parameterization does not capture dynamic motion or scene flow \cite{karhade2025any4d}, which are promising areas.
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+\coolname is the first universal transformer-based backbone that directly regresses metric 3D geometry and camera poses from flexible inputs -- including images, camera intrinsics, poses, depth maps, or partial reconstructions -- in a single pass. 
+By using a factored representation of multi-view geometry (depth maps, ray maps, poses, and a global scale factor), \coolname unifies local estimates into a global metric frame.
+\coolname handles multiple tasks like uncalibrated structure-from-motion, calibrated multi-view stereo, monocular depth estimation, camera localization, depth completion, and more without task-specific tuning.
+Extensive experiments show that it surpasses or matches specialist models while enabling efficient joint training. 
+Future extensions to dynamic scenes, uncertainty quantification, and scene understanding promise to further generalize \coolname's capabilities and robustness, paving the way toward a truly universal 3D reconstruction backbone.

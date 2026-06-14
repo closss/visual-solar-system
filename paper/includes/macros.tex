@@ -1,0 +1,128 @@
+\newcommand{\todo}[1]{{\color{red} TODO: \textbf{#1}}}
+\newcommand{\TODO}[1]{{\todo{#1}}}
+
+\definecolor{darkorange}{rgb}{1.0, 0.54, 0}
+\definecolor{darkpurple}{rgb}{0.288,0.1196,0.7}
+\newcommand{\nk}[1]{{\color{darkpurple}{\textbf{Nikhil}: #1}}}
+\newcommand{\norman}[1]{{\color{violet}{\textbf{Norman}: #1}}}
+\newcommand{\lorenzo}[1]{{\color{green}{\textbf{Lorenzo}: #1}}}
+\newcommand{\tobias}[1]{{\color{blue}{\textbf{Tobias}: #1}}}
+\newcommand{\CR}[1]{ {\color{cyan}{\textbf{Christian}: #1}}}
+\newcommand{\samuel}[1]{{\color{lime}{\textbf{Samuel}: #1}}}
+\newcommand{\arno}[1]{ {\color{orange}{\textbf{Arno}: #1}}}
+\newcommand{\jono}[1]{ {\color{black}{\textbf{Jono}: #1}}}
+\newcommand{\michael}[1]{{\color{brown}{\textbf{Michael}: #1}}}
+\newcommand{\jsch}[1]{{\color{red}{\textbf{Johannes}: #1}}}
+\newcommand{\deva}[1]{ {\color{darkorange}{\textbf{Deva}: #1}}}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\newcommand{\bs}[1]{{\color{amber}{\textbf{Basti}: #1}}}
+\newcommand{\peter}[1]{{\color{olive}{\textbf{Peter}: #1}}}
+\newcommand{\manu}[1]{{\color{green}{\textbf{Manuel}: #1}}}
+
+\newcommand{\edit}[1]{{\color{red}{#1}}}
+
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{e.g\onedot} 
+\def\Eg{E.g\onedot}
+\def\ie{i.e\onedot} 
+\def\Ie{I.e\onedot}
+\def\cf{cf\onedot}
+\def\etc{etc\onedot} \def\vs{vs\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\iid{i.i.d\onedot} \def\wolog{w.l.o.g\onedot}
+\def\etal{et al\onedot}
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {4pt}%
+  {-12pt}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\expandafter\def\expandafter\normalsize\expandafter{%
+    \normalsize%
+    \setlength\abovedisplayskip{0pt plus 2pt}%
+    \setlength\belowdisplayskip{0pt plus 2pt}%
+    \setlength\abovedisplayshortskip{0pt plus 2pt}%
+    \setlength\belowdisplayshortskip{0pt plus 2pt}%
+}
+
+\setlength{\abovecaptionskip}{6pt}  %
+\setlength\textfloatsep{10pt plus 2pt minus 4pt} %
+\setlength\floatsep{6pt plus 2pt minus 2pt} %
+\setlength\intextsep{6pt plus 2pt minus 2pt} %
+\setlength\dbltextfloatsep{10pt plus 2pt minus 4pt} %
+\setlength\dblfloatsep{8pt plus 2pt minus 2pt} %
+
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\dt}{\Delta t}
+\newcommand{\Rom}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\metric}[1]{{#1}^\text{metric}}
+\newcommand{\uts}[1]{\tilde{#1}}  %
+
+
+
+\newcommand{\appref}[1]{Appendix~\ref{#1}}
+\newcommand{\higher}{$\uparrow$}
+\newcommand{\perflower}{$\downarrow$}
+
+\definecolor{darkgray}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\highlight}[1]{\textcolor{darkgray}{\textbf{#1}}}
+
+\usepackage[capitalize,nameinlink,noabbrev]{cleveref}
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+
+\makeatletter
+\newcommand{\cdashmidrule}[1]{%
+  \noalign{\vskip\aboverulesep}
+  \cdashline{#1}
+  \noalign{\vskip\belowrulesep}}
+\makeatother
+
+\newcommand*{\subfigref}[2][]{%
+  Fig. \hyperref[{fig:#2}]{%
+    \ref*{fig:#2}%
+    \ifx\\#1\\%
+    \else
+      \,#1%
+    \fi
+  }%
+}
+
+\makeatletter
+
+\newcommand*{\@rowstyle}{}
+
+\newcommand*{\rowstyle}[1]{%
+  \gdef\@rowstyle{#1}%
+  \@rowstyle\ignorespaces%
+}
+
+\newcolumntype{=}{%
+  >{\gdef\@rowstyle{}}%
+}
+
+\newcolumntype{+}{%
+  >{\@rowstyle}%
+}
+
+\makeatother
+
+\newcommand{\absrel}{\textrm{rel}}
+\newcommand{\threshI}{\tau}
+\newcommand{\ate}{ATE}
+\newcommand{\bestresult}[1]{\textbf{#1}}
+
+\definecolor{darkgreen}{RGB}{0, 100, 0}
+\newcommand{\greencheck}{{\color{darkgreen}\checkmark}}
+\newcommand{\redx}{{\color{red}\ding{55}}}
+
+\newcommand{\tickmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+

@@ -1,0 +1,155 @@
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+
+\newif\ifarxiv
+\newif\ifcvpr
+\newif\ifcvprfinal
+
+\cvprfalse \cvprfinalfalse \arxivtrue %
+
+\ifcvprfinal
+\usepackage{cvpr} %
+\fi
+\ifcvpr
+\usepackage[review]{cvpr} %
+\fi
+\ifarxiv
+\usepackage[pagenumbers]{cvpr} %
+\fi
+
+
+\input{includes/packages}
+
+\input{includes/colors_and_icons}
+
+\input{includes/macros}
+
+
+\newcommand{\coolname}{Map\-Anything\xspace}
+\newcommand{\coolnamemode}[1]{\coolname{}–#1}
+
+
+
+\newcommand{\webpagetext}{map-anything.github.io}
+\newcommand{\webpage}{https://map-anything.github.io/}
+
+\def\paperID{235} %
+\def\confName{3DV}
+\def\confYear{2026}
+
+
+
+\ifcvprfinal
+\title{\coolname: Universal Feed-Forward Metric 3D Reconstruction \\[1.5pt]
+\Large{\href{\webpage}{\color{darkorange}{\webpagetext}}}
+\vspace{-1.2em}
+}
+\fi
+\ifcvpr
+\title{\coolname: Universal Feed-Forward Metric 3D Reconstruction}
+\fi
+\ifarxiv
+\title{\coolname: Universal Feed-Forward Metric 3D Reconstruction \\[1.6pt]
+\Large{\href{\webpage}{\color{darkorange}{\webpagetext}}}
+\vspace{-1em}
+}
+\fi
+
+\newcommand{\supptitle}[1]{
+\coolname: Universal Feed-Forward Metric 3D Reconstruction
+\vspace{-0.4em}
+}
+
+
+
+\definecolor{citegray}{gray}{0.32}
+\newcommand{\authorhref}[3][citegray]{\href{#2}{\color{#1}{#3}}}
+\def\authorspace{\hspace{.1in}}
+
+\author{%
+\authorhref{https://nik-v9.github.io/}{\textbf{Nikhil Keetha}}\hspace{.02in}$^{1, 2}$
+\authorspace
+\authorhref{https://sirwyver.github.io/}{\textbf{Norman Müller}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://demuc.de/}{\textbf{Johannes Schönberger}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://www.linkedin.com/in/lorenzoporzi}{\textbf{Lorenzo Porzi}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://infinity1096.github.io/}{\textbf{Yuchen Zhang}}\hspace{.02in}$^{2}$
+\\[0.25em]
+\authorhref{https://tobiasfshr.github.io/}{\textbf{Tobias Fischer}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://www.linkedin.com/in/arno-knapitsch}{\textbf{Arno Knapitsch}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://www.linkedin.com/in/duncan-zauss}{\textbf{Duncan Zauss}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://ethanweber.me/}{\textbf{Ethan Weber}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://www.linkedin.com/in/nelsonantunes7}{\textbf{Nelson Antunes}}\hspace{.02in}$^{1}$
+\\[0.25em]
+\authorhref{https://x.com/jonathonluiten?lang=en}{\textbf{Jonathon Luiten}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://m.lopezantequera.com/}{\textbf{Manuel Lopez-Antequera}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://scholar.google.com/citations?user=484sccEAAAAJ}{\textbf{Samuel Rota Bul\`{o}}}\hspace{.02in}$^{1}$
+\authorspace
+\authorhref{https://richardt.name/}{\textbf{Christian Richardt}}\hspace{.02in}$^{1}$
+\\[0.25em]
+\authorhref{https://www.cs.cmu.edu/~deva/}{\textbf{Deva Ramanan}}\hspace{.02in}$^{2}$
+\authorspace
+\authorhref{https://theairlab.org/team/sebastian/}{\textbf{Sebastian Scherer}}\hspace{.02in}$^{2}$
+\authorspace
+\authorhref{https://www.linkedin.com/in/peter-kontschieder-2a6410134}{\textbf{Peter Kontschieder}}\hspace{.02in}$^{1}$
+\\[0.65em]
+$^{1}$\hspace{.02in}\href{https://www.meta.com/}{\textcolor{citegray}{\textbf{Meta Reality Labs}}}
+\hspace{1em}
+$^{2}$\hspace{.02in}\href{https://www.ri.cmu.edu/}{\textcolor{citegray}{\textbf{Carnegie Mellon University}}}%
+}
+
+
+
+\begin{document}
+
+
+\twocolumn[{
+\maketitle
+    \centering
+    \vspace{-0.25in}
+    \includegraphics[trim={0cm 6cm 0cm 0cm},clip,width=\textwidth]{figs/MapAnything_Abstract_Fig.pdf}
+    \captionsetup{hypcap=false}
+    \captionof{figure}{%
+    \textbf{\coolname is a flexible, unified feed-forward 3D reconstruction model} that predicts metric 3D reconstructions with camera information from a set of $N$ input images with optional camera poses, intrinsics, or depth maps.
+    \coolname supports over 12 different 3D reconstruction tasks, including camera localization, structure-from-motion (SfM), multi-view stereo, and metric depth completion, outperforming or matching the quality of specialist methods. 
+    }
+    \label{fig:splash}
+    \vspace{1em}
+}] 
+
+\input{text/00_abstract}
+\input{text/01_intro}
+\input{text/02_related}
+\input{text/03_method}
+\input{text/04_benchmarking}
+\input{text/05_conclusion}
+
+
+\ifarxiv
+\input{supplementary}
+\fi
+
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{root, MapAnything-CR}
+}
+
+\ifcvpr
+\input{supplementary}
+\fi
+\ifcvprfinal
+\input{supplementary}
+\fi
+
+\end{document}

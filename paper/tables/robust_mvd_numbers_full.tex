@@ -1,0 +1,378 @@
+\def\pad{\phantom{0}}
+\begin{tabular}{l
+@{\hspace{6pt}}c
+@{\hspace{6pt}}c
+c c
+c c
+}
+
+\toprule
+    &
+    &
+    & \multicolumn{2}{c}{\textbf{KITTI}}
+    & \multicolumn{2}{c}{\textbf{ScanNet}}
+    \\
+
+    \textbf{Approach}
+    & \textbf{K}
+    & \textbf{Poses}
+    & $\absrel\downarrow$ & $\threshI\uparrow$
+    & $\absrel\downarrow$ & $\threshI\uparrow$
+    \\
+
+    \midrule
+
+    \multicolumn{7}{l}{\textbf{a) Single-View Metric}}
+    \\[0.4em]
+
+        MoGe-2~\cite{WangXDDXLSTY2025}
+        & \xmark
+        & \xmark
+        & 14.21
+        & \pad 6.8
+        & \pad \textbf{10.57}
+        & \textbf{19.8}
+        \\
+
+
+
+        \textbf{\coolname}
+        & \xmark
+        & \xmark
+        & \pad\textbf{9.69}
+        & \textbf{17.9}
+        & \pad 27.77
+        & \pad 2.9
+        \\
+
+    \arrayrulecolor{lightgray}\midrule
+
+        Depth Pro~\cite{BochkDGSZRK2025}
+        & \tickmark
+        & \xmark
+        & 13.60
+        & 14.3
+        & \pad\pad\textcolor{lightgray}{9.20}
+        & \textcolor{lightgray}{19.7}
+        \\
+
+        UniDepthV2~\cite{PicciSYSLAV2026}
+        & \tickmark
+        & \xmark
+        & 13.70
+        & \pad 4.8
+        & \pad\pad\textcolor{lightgray}{3.20}
+        & \textcolor{lightgray}{61.3}
+        \\
+
+        Metric3DV2~\cite{HuYZCLCWYSS2024}
+        & \tickmark
+        & \xmark
+        & \pad8.70
+        & 13.2
+        & \pad\pad\textcolor{lightgray}{6.20}
+        & \textcolor{lightgray}{19.3}
+        \\
+
+
+
+        \textbf{\coolname}
+        & \tickmark
+        & \xmark
+        & \pad\textbf{8.48}
+        & \textbf{27.7}
+        & \pad\textbf{31.12}
+        & \pad\textbf{3.0}
+        \\
+
+    \arrayrulecolor{gray}\midrule
+
+    \multicolumn{7}{l}{\textbf{b) Multi-View Metric}}
+    \\[0.4em]
+
+        MAST3R~\cite{LeroyCR2024}
+        & \xmark
+        & \xmark
+        & 61.40 %
+        & \pad 0.4
+        & \pad\textcolor{lightgray}{12.80} %
+        & \textcolor{lightgray}{19.4}
+        \\
+
+        MUSt3R~\cite{CabonSACCRL2025}
+        & \xmark
+        & \xmark
+        & 19.76
+        & \pad 7.3
+        & \pad\pad\textcolor{lightgray}{7.66}
+        & \textcolor{lightgray}{35.7}
+        \\ %
+    
+
+
+        \textbf{\coolname}
+        & \xmark
+        & \xmark
+        & \pad\textbf{5.45}
+        & \textbf{45.7}
+        & \pad\textbf{22.23}
+        & \textbf{10.6}
+        \\
+
+    \arrayrulecolor{lightgray}\midrule
+
+
+        \textbf{\coolname}
+        & \tickmark
+        & \xmark
+        & \pad\textbf{8.45}
+        & \textbf{27.5}
+        & \pad\textbf{24.94}
+        & \pad\textbf{8.2}
+        \\
+
+    \arrayrulecolor{lightgray}\midrule
+
+        Fast-MVSNet~\cite{YuG2020}
+        & \tickmark
+        & \tickmark
+        & 12.10
+        & 37.4
+        & 287.10
+        & \pad 9.4
+        \\ %
+    
+    
+    
+        Robust MVDB~\cite{SchroeBAB2022}
+        & \tickmark
+        & \tickmark
+        & \pad 7.10
+        & 41.9
+        & \pad\pad 7.40
+        & 38.4
+        \\ %
+    
+        MAST3R Tri.~\cite{IzquiSFGTCABW2025}
+        & \tickmark
+        & \tickmark
+        & \pad 3.40
+        & 66.6
+        & \pad\pad\textcolor{lightgray}{4.50}
+        & \textcolor{lightgray}{63.0}
+        \\ %
+    
+        MVSA~\cite{IzquiSFGTCABW2025}%
+        & \tickmark
+        & \tickmark
+        & \pad\bestresult{3.20}
+        & \bestresult{68.8}
+        & \pad \pad\bestresult{3.70}
+        & \bestresult{62.9}
+        \\
+    
+
+
+        \textbf{\coolname}
+        & \tickmark
+        & \tickmark
+        & \pad 4.63
+        & 51.6
+        & \pad \pad 5.58
+        & 48.1
+        \\ %
+
+    \midrule
+
+    \multicolumn{7}{l}{\textbf{c) Single-View w/ Alignment}}
+    \\[0.4em]
+
+        MoGe~\cite{WangXDXDTY2025}
+        & \xmark
+        & \xmark
+        & \pad 5.12
+        & 46.2 %
+        & \pad\pad\textbf{3.59}
+        & \textbf{65.3} %
+        \\
+
+        MoGe-2~\cite{WangXDDXLSTY2025}
+        & \xmark
+        & \xmark
+        & \pad\textbf{4.82}
+        & \textbf{47.9} %
+        & \pad\pad3.77
+        & 63.1 %
+        \\
+
+        VGGT~\cite{WangCKVRN2025}
+        & \xmark
+        & \xmark
+        & \pad7.50
+        & 33.0 %
+        & \pad\pad\textcolor{lightgray}{3.33}
+        & \textcolor{lightgray}{70.8} %
+        \\
+
+        $\pi^3$~\cite{WangZZCZLCPSH2025}
+        & \xmark
+        & \xmark
+        & \pad6.00
+        & 40.1
+        & \pad\pad\textcolor{lightgray}{2.90}
+        & \textcolor{lightgray}{73.9}
+        \\
+
+
+        \textbf{\coolname}
+        & \xmark
+        & \xmark
+        & \pad6.12
+        & 42.2
+        & \pad \pad 4.95
+        & 55.6
+        \\
+        
+    \arrayrulecolor{lightgray}\midrule
+
+        Depth Pro~\cite{BochkDGSZRK2025}
+        & \tickmark
+        & \xmark
+        & \pad 6.10
+        & 39.6
+        & \pad\pad\textcolor{lightgray}{4.30}
+        & \textcolor{lightgray}{58.4}
+        \\
+
+        DAV2~\cite{YangKHZXFZ2024}
+        & \tickmark
+        & \xmark
+        & \pad 6.60
+        & 38.6
+        & \pad\pad\textbf{4.00}
+        & \textbf{58.6}
+        \\ %
+
+        Metric3DV2~\cite{HuYZCLCWYSS2024}
+        & \tickmark
+        & \xmark
+        & \pad 5.10
+        & 44.1
+        & \pad\pad\textcolor{lightgray}{2.40}
+        &  \textcolor{lightgray}{78.3}
+        \\
+
+        UniDepthV2~\cite{PicciSYSLAV2026}
+        & \tickmark
+        & \xmark
+        & \pad\bestresult{4.00}
+        & \bestresult{55.3}
+        & \pad\pad\textcolor{lightgray}{2.10}
+        & \textcolor{lightgray}{82.6}
+        \\
+
+
+        \textbf{\coolname}
+        & \tickmark
+        & \xmark
+        & \pad6.15
+        & 41.6
+        & \pad\pad 4.77
+        & 57.1
+        \\
+
+    \midrule
+
+    \multicolumn{7}{l}{\textbf{d) Multi-View w/ Alignment}}
+    \\[0.4em]
+
+        MAST3R~\cite{LeroyCR2024}
+        & \xmark
+        & \xmark
+        & \pad3.30
+        & 67.7
+        & \pad\pad\textcolor{lightgray}{4.30}
+        & \textcolor{lightgray}{64.0}
+        \\ %
+
+        MUSt3R~\cite{CabonSACCRL2025}
+        & \xmark
+        & \xmark
+        & \pad 4.47
+        & 56.7
+        & \pad\pad\textcolor{lightgray}{3.22}
+        & \textcolor{lightgray}{69.2}
+        \\ %
+
+        VGGT~\cite{WangCKVRN2025}
+        & \xmark
+        & \xmark
+        & \pad 4.60
+        & 53.0 %
+        & \pad\pad\textcolor{lightgray}{2.34}
+        & \textcolor{lightgray}{80.6} %
+        \\
+
+        $\pi^3$~\cite{WangZZCZLCPSH2025}
+        & \xmark
+        & \xmark
+        & \pad\textbf{3.09}
+        & \textbf{69.5}
+        & \pad\pad\textcolor{lightgray}{1.98}
+        & \textcolor{lightgray}{83.6}
+        \\
+
+
+        \textbf{\coolname}
+        & \xmark
+        & \xmark
+        & \pad 4.04
+        & 60.3
+        & \pad\pad\textbf{3.47}
+        & \textbf{67.0}
+        \\
+
+    \arrayrulecolor{lightgray}\midrule
+
+        DeMoN~\cite{UmmenZUMIDB2017}
+        & \tickmark
+        & \xmark
+        & 15.50
+        & 15.2
+        & \pad 12.00
+        & 21.0
+        \\ %
+    
+        DeepV2D {\scriptsize{KITTI}}~\cite{TeedD2020}
+        & \tickmark
+        & \xmark
+        & \pad\textcolor{lightgray}{3.10}
+        & \textcolor{lightgray}{74.9}
+        & \pad 23.70
+        & 11.1
+        \\ %
+    
+        DeepV2D {\scriptsize{ScanNet}}~\cite{TeedD2020}
+        & \tickmark
+        & \xmark
+        & 10.00
+        & 36.2
+        & \pad\pad\textcolor{lightgray}{4.40}
+        & \textcolor{lightgray}{54.8}
+        \\ %
+    
+
+        \textbf{\coolname}
+        & \tickmark
+        & \xmark
+        & \pad\textbf{3.97}
+        & \textbf{61.2}
+        & \pad\pad\textbf{3.34}
+        & \textbf{68.5}
+        \\ %
+
+
+
+
+    \arrayrulecolor{black}\bottomrule
+\end{tabular}

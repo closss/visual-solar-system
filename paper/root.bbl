@@ -1,0 +1,448 @@
+\begin{thebibliography}{88}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alama et~al.(2025)Alama, Bhattacharya, He, Kim, Qiu, Wang, Ho, Keetha, and Scherer]{AlamaBHKQWHKS2025}
+Omar Alama, Avigyan Bhattacharya, Haoyang He, Seungchan Kim, Yuheng Qiu, Wenshan Wang, Cherie Ho, Nikhil Keetha, and Sebastian Scherer.
+\newblock {RayFronts}: Open-set semantic ray frontiers for online scene understanding and exploration.
+\newblock In \emph{IROS}, 2025.
+
+\bibitem[Avetisyan et~al.(2024)Avetisyan, Xie, Howard-Jenkins, Yang, Aroudj, Patra, Zhang, Frost, Holland, Orme, Engel, Miller, Newcombe, and Balntas]{AvetiXHYAPZFHOEMNB2024}
+Armen Avetisyan, Christopher Xie, Henry Howard-Jenkins, Tsun-Yi Yang, Samir Aroudj, Suvam Patra, Fuyang Zhang, Duncan Frost, Luke Holland, Campbell Orme, Jakob Engel, Edward Miller, Richard Newcombe, and Vasileios Balntas.
+\newblock {SceneScript}: Reconstructing scenes with an autoregressive structured language model.
+\newblock In \emph{ECCV}, 2024.
+
+\bibitem[Bachmann et~al.(2022)Bachmann, Mizrahi, Atanov, and Zamir]{BachmMAZ2022}
+Roman Bachmann, David Mizrahi, Andrei Atanov, and Amir Zamir.
+\newblock {MultiMAE}: Multi-modal multi-task masked autoencoders.
+\newblock In \emph{ECCV}, 2022.
+
+\bibitem[Barron(2019)]{Barro2019}
+Jonathan~T. Barron.
+\newblock A general and adaptive robust loss function.
+\newblock In \emph{CVPR}, 2019.
+
+\bibitem[Bochkovskii et~al.(2025)Bochkovskii, Delaunoy, Germain, Santos, Zhou, Richter, and Koltun]{BochkDGSZRK2025}
+Aleksei Bochkovskii, Amaël Delaunoy, Hugo Germain, Marcel Santos, Yichao Zhou, Stephan~R. Richter, and Vladlen Koltun.
+\newblock Depth pro: Sharp monocular metric depth in less than a second.
+\newblock In \emph{ICLR}, 2025.
+
+\bibitem[Cabon et~al.(2025)Cabon, Stoffl, Antsfeld, Csurka, Chidlovskii, Revaud, and Leroy]{CabonSACCRL2025}
+Yohann Cabon, Lucas Stoffl, Leonid Antsfeld, Gabriela Csurka, Boris Chidlovskii, Jerome Revaud, and Vincent Leroy.
+\newblock {MUSt3R}: Multi-view network for stereo {3D} reconstruction.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Chen et~al.(2024)Chen, Cavallari, Prisacariu, and Brachmann]{ChenCPB2024}
+Shuai Chen, Tommaso Cavallari, Victor~Adrian Prisacariu, and Eric Brachmann.
+\newblock Map-relative pose regression for visual re-localization.
+\newblock In \emph{CVPR}, 2024.
+
+\bibitem[Dong et~al.(2025)Dong, Wang, Liu, Cai, Fan, Kannala, and Yang]{DongWLCFKY2025}
+Siyan Dong, Shuzhe Wang, Shaohui Liu, Lulu Cai, Qingnan Fan, Juho Kannala, and Yanchao Yang.
+\newblock Reloc3r: Large-scale training of relative camera pose regression for generalizable, fast, and accurate visual localization.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Duisterhof et~al.(2025{\natexlab{a}})Duisterhof, Oberst, Wen, Birchfield, Ramanan, and Ichnowski]{DuistOWBRI2025}
+Bardienus~P. Duisterhof, Jan Oberst, Bowen Wen, Stan Birchfield, Deva Ramanan, and Jeffrey Ichnowski.
+\newblock {RaySt3R}: Predicting novel depth maps for zero-shot object completion.
+\newblock In \emph{NeurIPS}, 2025{\natexlab{a}}.
+
+\bibitem[Duisterhof et~al.(2025{\natexlab{b}})Duisterhof, Zust, Weinzaepfel, Leroy, Cabon, and Revaud]{DuistZWLCR2025}
+Bardienus~Pieter Duisterhof, Lojze Zust, Philippe Weinzaepfel, Vincent Leroy, Yohann Cabon, and Jerome Revaud.
+\newblock {MASt3R-SfM}: a fully-integrated solution for unconstrained structure-from-motion.
+\newblock In \emph{3DV}, 2025{\natexlab{b}}.
+
+\bibitem[Elflein et~al.(2025)Elflein, Zhou, Agostinho, and Leal-Taixé]{ElfleZAL2025}
+Sven Elflein, Qunjie Zhou, Sérgio Agostinho, and Laura Leal-Taixé.
+\newblock {Light3R-SfM}: Towards feed-forward structure-from-motion.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Grossberg and Nayar(2001)]{GrossN2001}
+Michael~D. Grossberg and Shree~K. Nayar.
+\newblock A general imaging model and a method for finding its parameters.
+\newblock In \emph{ICCV}, 2001.
+
+\bibitem[Hartley et~al.(2013)Hartley, Trumpf, Dai, and Li]{HartlTDL2013}
+Richard Hartley, Jochen Trumpf, Yuchao Dai, and Hongdong Li.
+\newblock Rotation averaging.
+\newblock \emph{Int. J. Comput. Vis.}, 103\penalty0 (3):\penalty0 267--305, 2013.
+
+\bibitem[Heinrich et~al.(2025)Heinrich, Ranzinger, Hongxu, Lu, Kautz, Tao, Catanzaro, and Molchanov]{HeinrRHLKTCM2025}
+Greg Heinrich, Mike Ranzinger, Hongxu, Yao Lu, Jan Kautz, Andrew Tao, Bryan Catanzaro, and Pavlo Molchanov.
+\newblock {RADIOv2.5}: Improved baselines for agglomerative vision foundation models.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Ho et~al.(2024)Ho, Zou, Alama, Kumar, Chiang, Gupta, Wang, Keetha, Sycara, and Scherer]{ho2024map}
+Cherie Ho, Jiaye Zou, Omar Alama, Sai~M Kumar, Benjamin Chiang, Taneesh Gupta, Chen Wang, Nikhil Keetha, Katia Sycara, and Sebastian Scherer.
+\newblock Map it anywhere: Empowering bev map prediction using large-scale public datasets.
+\newblock In \emph{NeurIPS}, 2024.
+
+\bibitem[Hoiem et~al.(2005)Hoiem, Efros, and Hebert]{HoiemEH2005a}
+Derek Hoiem, Alexei~A Efros, and Martial Hebert.
+\newblock Geometric context from a single image.
+\newblock In \emph{ICCV}, 2005.
+
+\bibitem[Horn(1989)]{horn1989obtaining}
+Berthold~KP Horn.
+\newblock Obtaining shape from shading information.
+\newblock In \emph{Shape from shading}, pages 123--171. MIT Press, 1989.
+
+\bibitem[Hu et~al.(2024)Hu, Yin, Zhang, Cai, Long, Chen, Wang, Yu, Shen, and Shen]{HuYZCLCWYSS2024}
+Mu Hu, Wei Yin, Chi Zhang, Zhipeng Cai, Xiaoxiao Long, Hao Chen, Kaixuan Wang, Gang Yu, Chunhua Shen, and Shaojie Shen.
+\newblock {Metric3D} v2: A versatile monocular geometric foundation model for zero-shot metric depth and surface normal estimation.
+\newblock \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 46\penalty0 (12):\penalty0 10579--10596, 2024.
+
+\bibitem[Hu et~al.(2023)Hu, Xie, Jain, Francis, Patrikar, Keetha, Kim, Xie, Zhang, Fang, Zhao, Omidshafiei, Kim, akbar Agha-mohammadi, Sycara, Johnson-Roberson, Batra, Wang, Scherer, Wang, Kira, Xia, and Bisk]{HuXJFPKKXZFZOKASJBWSWKXB2023}
+Yafei Hu, Quanting Xie, Vidhi Jain, Jonathan Francis, Jay Patrikar, Nikhil Keetha, Seungchan Kim, Yaqi Xie, Tianyi Zhang, Hao-Shu Fang, Shibo Zhao, Shayegan Omidshafiei, Dong-Ki Kim, Ali akbar Agha-mohammadi, Katia Sycara, Matthew Johnson-Roberson, Dhruv Batra, Xiaolong Wang, Sebastian Scherer, Chen Wang, Zsolt Kira, Fei Xia, and Yonatan Bisk.
+\newblock Toward general-purpose robots via foundation models: A survey and meta-analysis.
+\newblock \href{https://arxiv.org/abs/2312.08782}{arXiv:2312.08782}, 2023.
+
+\bibitem[Hu et~al.(2021)Hu, Wang, Yeh, and Schwing]{HuWYS2021}
+Yuan-Ting Hu, Jiahong Wang, Raymond~A. Yeh, and Alexander~G. Schwing.
+\newblock {SAIL-VOS 3D}: A synthetic dataset and baselines for object detection and {3D} mesh reconstruction from video data.
+\newblock In \emph{CVPR}, 2021.
+
+\bibitem[Huang et~al.(2018)Huang, Matzen, Kopf, Ahuja, and Huang]{HuangMKAH2018}
+Po-Han Huang, Kevin Matzen, Johannes Kopf, Narendra Ahuja, and Jia-Bin Huang.
+\newblock {DeepMVS}: Learning multi-view stereopsis.
+\newblock In \emph{CVPR}, 2018.
+
+\bibitem[Izquierdo et~al.(2025)Izquierdo, Sayed, Firman, Garcia-Hernando, Turmukhambetov, Civera, Aodha, Brostow, and Watson]{IzquiSFGTCABW2025}
+Sergio Izquierdo, Mohamed Sayed, Michael Firman, Guillermo Garcia-Hernando, Daniyar Turmukhambetov, Javier Civera, Oisin~Mac Aodha, Gabriel Brostow, and Jamie Watson.
+\newblock {MVSAnywhere}: Zero-shot multi-view stereo.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Jang et~al.(2025)Jang, Weinzaepfel, Leroy, Agapito, and Revaud]{JangWLAR2025}
+Wonbong Jang, Philippe Weinzaepfel, Vincent Leroy, Lourdes Agapito, and Jerome Revaud.
+\newblock {Pow3R}: Empowering unconstrained {3D} reconstruction with camera and scene priors.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Jin et~al.(2025)Jin, Jiang, Tan, Zhang, Bi, Zhang, Luan, Snavely, and Xu]{JinJTZBZLSX2025}
+Haian Jin, Hanwen Jiang, Hao Tan, Kai Zhang, Sai Bi, Tianyuan Zhang, Fujun Luan, Noah Snavely, and Zexiang Xu.
+\newblock {LVSM}: A large view synthesis model with minimal {3D} inductive bias.
+\newblock In \emph{ICLR}, 2025.
+
+\bibitem[Karaev et~al.(2023)Karaev, Rocco, Graham, Neverova, Vedaldi, and Rupprecht]{KaraeRGNVR2023}
+Nikita Karaev, Ignacio Rocco, Benjamin Graham, Natalia Neverova, Andrea Vedaldi, and Christian Rupprecht.
+\newblock {DynamicStereo}: Consistent dynamic depth from stereo videos.
+\newblock In \emph{CVPR}, 2023.
+
+\bibitem[Karhade et~al.(2025)Karhade, Keetha, Zhang, Gupta, Sharma, Scherer, and Ramanan]{karhade2025any4d}
+Jay Karhade, Nikhil Keetha, Yuchen Zhang, Tanisha Gupta, Akash Sharma, Sebastian Scherer, and Deva Ramanan.
+\newblock {Any4D}: Unified feed-forward metric 4d reconstruction.
+\newblock \emph{arXiv preprint arXiv:2512.10935}, 2025.
+
+\bibitem[Keetha et~al.(2024)Keetha, Karhade, Jatavallabhula, Yang, Scherer, Ramanan, and Luiten]{KeethKJYSRL2024}
+Nikhil Keetha, Jay Karhade, Krishna~Murthy Jatavallabhula, Gengshan Yang, Sebastian Scherer, Deva Ramanan, and Jonathon Luiten.
+\newblock {SplaTAM}: Splat, track \& map {3D Gaussians} for dense {RGB-D SLAM}.
+\newblock In \emph{CVPR}, 2024.
+
+\bibitem[Kingma and Ba(2015)]{KingmB2015}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock In \emph{ICLR}, 2015.
+
+\bibitem[Leroy et~al.(2024)Leroy, Cabon, and Revaud]{LeroyCR2024}
+Vincent Leroy, Yohann Cabon, and Jérôme Revaud.
+\newblock Grounding image matching in {3D} with {MASt3R}.
+\newblock In \emph{ECCV}, 2024.
+
+\bibitem[Li and Snavely(2018)]{LiS2018}
+Zhengqi Li and Noah Snavely.
+\newblock {MegaDepth}: Learning single-view depth prediction from internet photos.
+\newblock In \emph{CVPR}, 2018.
+
+\bibitem[Lin et~al.(2025)Lin, Chen, Liew, Chen, Li, Shi, Feng, and Kang]{lin2025depth}
+Haotong Lin, Sili Chen, Junhao Liew, Donny~Y Chen, Zhenyu Li, Guang Shi, Jiashi Feng, and Bingyi Kang.
+\newblock Depth anything 3: Recovering the visual space from any views.
+\newblock \emph{arXiv preprint arXiv:2511.10647}, 2025.
+
+\bibitem[Ling et~al.(2024)Ling, Sheng, Tu, Zhao, Xin, Wan, Yu, Guo, Yu, Lu, Li, Sun, Ashok, Mukherjee, Kang, Kong, Hua, Zhang, Benes, and Bera]{LingSTZXWYGYLLSAMKKHZBB2024}
+Lu Ling, Yichen Sheng, Zhi Tu, Wentian Zhao, Cheng Xin, Kun Wan, Lantao Yu, Qianyu Guo, Zixun Yu, Yawen Lu, Xuanmao Li, Xingpeng Sun, Rohan Ashok, Aniruddha Mukherjee, Hao Kang, Xiangrui Kong, Gang Hua, Tianyi Zhang, Bedrich Benes, and Aniket Bera.
+\newblock {DL3DV-10K}: A large-scale scene dataset for deep learning-based {3D} vision.
+\newblock In \emph{CVPR}, 2024.
+
+\bibitem[Lowe(2004)]{Lowe2004}
+David~G. Lowe.
+\newblock Distinctive image features from scale-invariant keypoints.
+\newblock \emph{Int. J. Comput. Vis.}, 60\penalty0 (2):\penalty0 91--110, 2004.
+
+\bibitem[Lu et~al.(2025{\natexlab{a}})Lu, Huang, Li, Dou, Lin, Cui, Dong, Yeung, Wang, and Liu]{LuHLDLCDYWL2025}
+Jiahao Lu, Tianyu Huang, Peng Li, Zhiyang Dou, Cheng Lin, Zhiming Cui, Zhen Dong, Sai-Kit Yeung, Wenping Wang, and Yuan Liu.
+\newblock {Align3R}: Aligned monocular depth estimation for dynamic videos.
+\newblock In \emph{CVPR}, 2025{\natexlab{a}}.
+
+\bibitem[Lu et~al.(2025{\natexlab{b}})Lu, Zhang, Fang, Nahmias, Tsin, Quan, Cao, Yao, and Li]{LuZFNTQCYL2025}
+Yuanxun Lu, Jingyang Zhang, Tian Fang, Jean-Daniel Nahmias, Yanghai Tsin, Long Quan, Xun Cao, Yao Yao, and Shiwei Li.
+\newblock {Matrix3D}: Large photogrammetry model all-in-one.
+\newblock In \emph{CVPR}, 2025{\natexlab{b}}.
+
+\bibitem[López~Antequera et~al.(2020)López~Antequera, Gargallo, Hofinger, Bulò, Kuang, and Kontschieder]{LopezGHBKK2020}
+Manuel López~Antequera, Pau Gargallo, Markus Hofinger, Samuel~Rota Bulò, Yubin Kuang, and Peter Kontschieder.
+\newblock Mapillary planet-scale depth dataset.
+\newblock In \emph{ECCV}, 2020.
+
+\bibitem[Mehl et~al.(2023)Mehl, Schmalfuss, Jahedi, Nalivayko, and Bruhn]{MehlSJNB2023}
+Lukas Mehl, Jenny Schmalfuss, Azin Jahedi, Yaroslava Nalivayko, and Andrés Bruhn.
+\newblock Spring: A high-resolution high-detail dataset and benchmark for scene flow, optical flow and stereo.
+\newblock In \emph{CVPR}, 2023.
+
+\bibitem[Mou et~al.(2024)Mou, Wang, Xie, Wu, Zhang, Qi, Shan, and Qie]{MouWXWZQSQ2024}
+Chong Mou, Xintao Wang, Liangbin Xie, Yanze Wu, Jian Zhang, Zhongang Qi, Ying Shan, and Xiaohu Qie.
+\newblock {T2I}-adapter: Learning adapters to dig out more controllable ability for text-to-image diffusion models.
+\newblock In \emph{AAAI}, 2024.
+
+\bibitem[Murai et~al.(2025)Murai, Dexheimer, and Davison]{MuraiDD2025}
+Riku Murai, Eric Dexheimer, and Andrew~J. Davison.
+\newblock {MASt3R-SLAM}: Real-time dense {SLAM} with {3D} reconstruction priors.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Nistér(2004)]{Niste2004}
+David Nistér.
+\newblock An efficient solution to the five-point relative pose problem.
+\newblock \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 26\penalty0 (06):\penalty0 756--777, 2004.
+
+\bibitem[Oquab et~al.(2024{\natexlab{a}})Oquab, Darcet, Moutakanni, Vo, Szafraniec, Khalidov, Fernandez, Haziza, Massa, El-Nouby, et~al.]{oquab2023dinov2}
+Maxime Oquab, Timoth{\'e}e Darcet, Th{\'e}o Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, et~al.
+\newblock {DINOv2}: Learning robust visual features without supervision.
+\newblock \emph{Transactions on Machine Learning Research}, 2024{\natexlab{a}}.
+
+\bibitem[Oquab et~al.(2024{\natexlab{b}})Oquab, Darcet, Moutakanni, Vo, Szafraniec, Khalidov, Fernandez, Haziza, Massa, El-Nouby, Assran, Ballas, Galuba, Howes, Huang, Li, Misra, Rabbat, Sharma, Synnaeve, Xu, Jegou, Mairal, Labatut, Joulin, and Bojanowski]{OquabDMVSKFHMEABGHHLMRSSXJMLJB2024}
+Maxime Oquab, Timothée Darcet, Théo Moutakanni, Huy~V. Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, Mido Assran, Nicolas Ballas, Wojciech Galuba, Russell Howes, Po-Yao Huang, Shang-Wen Li, Ishan Misra, Michael Rabbat, Vasu Sharma, Gabriel Synnaeve, Hu Xu, Herve Jegou, Julien Mairal, Patrick Labatut, Armand Joulin, and Piotr Bojanowski.
+\newblock {DINOv2}: Learning robust visual features without supervision.
+\newblock \emph{Transactions on Machine Learning Research}, 2024{\natexlab{b}}.
+
+\bibitem[Pan et~al.(2024)Pan, Baráth, Pollefeys, and Schönberger]{PanBPS2024}
+Linfei Pan, Dániel Baráth, Marc Pollefeys, and Johannes~Lutz Schönberger.
+\newblock Global structure-from-motion revisited.
+\newblock In \emph{ECCV}, 2024.
+
+\bibitem[Pataki et~al.(2025)Pataki, Sarlin, Schönberger, and Pollefeys]{PatakSSP2025}
+Zador Pataki, Paul-Edouard Sarlin, Johannes~L. Schönberger, and Marc Pollefeys.
+\newblock {MP-SfM}: Monocular surface priors for robust structure-from-motion.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Piccinelli et~al.(2026)Piccinelli, Sakaridis, Yang, Segu, Li, Abbeloos, and Van~Gool]{PicciSYSLAV2026}
+Luigi Piccinelli, Christos Sakaridis, Yung-Hsu Yang, Mattia Segu, Siyuan Li, Wim Abbeloos, and Luc Van~Gool.
+\newblock {UniDepthV2}: Universal monocular metric depth estimation made simpler.
+\newblock \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 2026.
+
+\bibitem[Ranftl et~al.(2021)Ranftl, Bochkovskiy, and Koltun]{RanftBK2021}
+René Ranftl, Alexey Bochkovskiy, and Vladlen Koltun.
+\newblock Vision transformers for dense prediction.
+\newblock In \emph{ICCV}, 2021.
+
+\bibitem[Ranftl et~al.(2022)Ranftl, Lasinger, Hafner, Schindler, and Koltun]{RanftLHSK2022}
+René Ranftl, Katrin Lasinger, David Hafner, Konrad Schindler, and Vladlen Koltun.
+\newblock Towards robust monocular depth estimation: Mixing datasets for zero-shot cross-dataset transfer.
+\newblock \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 44\penalty0 (3):\penalty0 1623--1637, 2022.
+
+\bibitem[Ranzinger et~al.(2024)Ranzinger, Heinrich, Kautz, and Molchanov]{RanziHKM2024}
+Mike Ranzinger, Greg Heinrich, Jan Kautz, and Pavlo Molchanov.
+\newblock {AM-RADIO}: Agglomerative vision foundation model -- reduce all domains into one.
+\newblock In \emph{CVPR}, 2024.
+
+\bibitem[Sarlin et~al.(2020)Sarlin, DeTone, Malisiewicz, and Rabinovich]{SarliDMR2020}
+Paul-Edouard Sarlin, Daniel DeTone, Tomasz Malisiewicz, and Andrew Rabinovich.
+\newblock {SuperGlue}: Learning feature matching with graph neural networks.
+\newblock In \emph{CVPR}, 2020.
+
+\bibitem[Sattler et~al.(2011)Sattler, Leibe, and Kobbelt]{SattlLK2011}
+Torsten Sattler, Bastian Leibe, and Leif Kobbelt.
+\newblock Fast image-based localization using direct {2D-to-3D} matching.
+\newblock In \emph{ICCV}, 2011.
+
+\bibitem[Schröppel et~al.(2022)Schröppel, Bechtold, Amiranashvili, and Brox]{SchroeBAB2022}
+Philipp Schröppel, Jan Bechtold, Artemij Amiranashvili, and Thomas Brox.
+\newblock A benchmark and a baseline for robust multi-view depth estimation.
+\newblock In \emph{3DV}, 2022.
+
+\bibitem[Schönberger and Frahm(2016)]{SchoenF2016}
+Johannes~L. Schönberger and Jan-Michael Frahm.
+\newblock Structure-from-motion revisited.
+\newblock In \emph{CVPR}, 2016.
+
+\bibitem[Schönberger et~al.(2016)Schönberger, Zheng, Frahm, and Pollefeys]{SchoenZFP2016}
+Johannes~L. Schönberger, Enliang Zheng, Jan-Michael Frahm, and Marc Pollefeys.
+\newblock Pixelwise view selection for unstructured multi-view stereo.
+\newblock In \emph{ECCV}, 2016.
+
+\bibitem[Schöps et~al.(2017)Schöps, Schönberger, Galliani, Sattler, Schindler, Pollefeys, and Geiger]{SchoepSGSSPG2017}
+Thomas Schöps, Johannes~L. Schönberger, Silvano Galliani, Torsten Sattler, Konrad Schindler, Marc Pollefeys, and Andreas Geiger.
+\newblock A multi-view stereo benchmark with high-resolution images and multi-camera videos.
+\newblock In \emph{CVPR}, 2017.
+
+\bibitem[Su et~al.(2024)Su, Lu, Pan, Murtadha, Wen, and Liu]{SuLPMWL2024}
+Jianlin Su, Yu Lu, Shengfeng Pan, Ahmed Murtadha, Bo Wen, and Yunfeng Liu.
+\newblock {RoFormer}: Enhanced transformer with rotary position embedding.
+\newblock \emph{Neurocomputing}, 568\penalty0 (C), 2024.
+
+\bibitem[Tang et~al.(2025)Tang, Fan, Wang, Xu, Ranjan, Schwing, and Yan]{TangFWXRSY2025}
+Zhenggang Tang, Yuchen Fan, Dilin Wang, Hongyu Xu, Rakesh Ranjan, Alexander Schwing, and Zhicheng Yan.
+\newblock {MV-DUSt3R+}: Single-stage scene reconstruction from sparse views in 2 seconds.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Teed and Deng(2020)]{TeedD2020}
+Zachary Teed and Jia Deng.
+\newblock {DeepV2D}: Video to depth with differentiable structure from motion.
+\newblock In \emph{ICLR}, 2020.
+
+\bibitem[Tirado-Garín and Civera(2025)]{TiradC2025}
+Javier Tirado-Garín and Javier Civera.
+\newblock {AnyCalib}: On-manifold learning for model-agnostic single-view camera calibration.
+\newblock In \emph{ICCV}, 2025.
+
+\bibitem[Tosi et~al.(2021)Tosi, Liao, Schmitt, and Geiger]{TosiLSG2021}
+Fabio Tosi, Yiyi Liao, Carolin Schmitt, and Andreas Geiger.
+\newblock {SMD}-nets: Stereo mixture density networks.
+\newblock In \emph{CVPR}, pages 8942--8952, 2021.
+
+\bibitem[Triggs et~al.(2000)Triggs, McLauchlan, Hartley, and Fitzgibbon]{TriggMHF2000}
+Bill Triggs, Philip~F. McLauchlan, Richard~I. Hartley, and Andrew Fitzgibbon.
+\newblock Bundle adjustment -- a modern synthesis.
+\newblock In \emph{ICCV}, pages 298--372, 2000.
+
+\bibitem[Ummenhofer et~al.(2017)Ummenhofer, Zhou, Uhrig, Mayer, Ilg, Dosovitskiy, and Brox]{UmmenZUMIDB2017}
+Benjamin Ummenhofer, Huizhong Zhou, Jonas Uhrig, Nikolaus Mayer, Eddy Ilg, Alexey Dosovitskiy, and Thomas Brox.
+\newblock {DeMoN}: Depth and motion network for learning monocular stereo.
+\newblock In \emph{CVPR}, 2017.
+
+\bibitem[Van~Hoorick et~al.(2024)Van~Hoorick, Wu, Ozguroglu, Sargent, Liu, Tokmakov, Dave, Zheng, and Vondrick]{VanHWOSLTDZV2024}
+Basile Van~Hoorick, Rundi Wu, Ege Ozguroglu, Kyle Sargent, Ruoshi Liu, Pavel Tokmakov, Achal Dave, Changxi Zheng, and Carl Vondrick.
+\newblock Generative camera dolly: Extreme monocular dynamic novel view synthesis.
+\newblock In \emph{ECCV}, 2024.
+
+\bibitem[Vasiljevic et~al.(2020)Vasiljevic, Guizilini, Ambrus, Pillai, Burgard, Shakhnarovich, and Gaidon]{VasilGAPBSG2020}
+Igor Vasiljevic, Vitor Guizilini, Rares Ambrus, Sudeep Pillai, Wolfram Burgard, Greg Shakhnarovich, and Adrien Gaidon.
+\newblock Neural ray surfaces for self-supervised learning of depth and ego-motion.
+\newblock In \emph{3DV}, 2020.
+
+\bibitem[Veicht et~al.(2024)Veicht, Sarlin, Lindenberger, and Pollefeys]{VeichSLP2024}
+Alexander Veicht, Paul-Edouard Sarlin, Philipp Lindenberger, and Marc Pollefeys.
+\newblock {GeoCalib}: Single-image calibration with geometric optimization.
+\newblock In \emph{ECCV}, 2024.
+
+\bibitem[Wang and Agapito(2025)]{WangA2025}
+Hengyi Wang and Lourdes Agapito.
+\newblock {3D} reconstruction with spatial memory.
+\newblock In \emph{3DV}, 2025.
+
+\bibitem[Wang et~al.(2024{\natexlab{a}})Wang, Karaev, Rupprecht, and Novotny]{WangKRN2024}
+Jianyuan Wang, Nikita Karaev, Christian Rupprecht, and David Novotny.
+\newblock Visual geometry grounded deep structure from motion.
+\newblock In \emph{CVPR}, 2024{\natexlab{a}}.
+
+\bibitem[Wang et~al.(2025{\natexlab{a}})Wang, Chen, Karaev, Vedaldi, Rupprecht, and Novotny]{WangCKVRN2025}
+Jianyuan Wang, Minghao Chen, Nikita Karaev, Andrea Vedaldi, Christian Rupprecht, and David Novotny.
+\newblock {VGGT}: Visual geometry grounded transformer.
+\newblock In \emph{CVPR}, 2025{\natexlab{a}}.
+
+\bibitem[Wang et~al.(2024{\natexlab{b}})Wang, Tan, Bi, Xu, Luan, Sunkavalli, Wang, Xu, and Zhang]{WangTBXLSWXZ2024}
+Peng Wang, Hao Tan, Sai Bi, Yinghao Xu, Fujun Luan, Kalyan Sunkavalli, Wenping Wang, Zexiang Xu, and Kai Zhang.
+\newblock {PF-LRM}: Pose-free large reconstruction model for joint pose and shape prediction.
+\newblock In \emph{ICLR}, 2024{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2025{\natexlab{b}})Wang, Zhang, Holynski, Efros, and Kanazawa]{WangZHEK2025}
+Qianqian Wang, Yifei Zhang, Aleksander Holynski, Alexei~A. Efros, and Angjoo Kanazawa.
+\newblock Continuous {3D} perception model with persistent state.
+\newblock In \emph{CVPR}, 2025{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2025{\natexlab{c}})Wang, Xu, Dai, Xiang, Deng, Tong, and Yang]{WangXDXDTY2025}
+Ruicheng Wang, Sicheng Xu, Cassie Dai, Jianfeng Xiang, Yu Deng, Xin Tong, and Jiaolong Yang.
+\newblock {MoGe}: Unlocking accurate monocular geometry estimation for open-domain images with optimal training supervision.
+\newblock In \emph{CVPR}, 2025{\natexlab{c}}.
+
+\bibitem[Wang et~al.(2025{\natexlab{d}})Wang, Xu, Dong, Deng, Xiang, Lv, Sun, Tong, and Yang]{WangXDDXLSTY2025}
+Ruicheng Wang, Sicheng Xu, Yue Dong, Yu Deng, Jianfeng Xiang, Zelong Lv, Guangzhong Sun, Xin Tong, and Jiaolong Yang.
+\newblock {MoGe}-2: Accurate monocular geometry with metric scale and sharp details.
+\newblock In \emph{NeurIPS}, 2025{\natexlab{d}}.
+
+\bibitem[Wang et~al.(2024{\natexlab{c}})Wang, Leroy, Cabon, Chidlovskii, and Revaud]{WangLCCR2024}
+Shuzhe Wang, Vincent Leroy, Yohann Cabon, Boris Chidlovskii, and Jerome Revaud.
+\newblock {DUSt3R}: Geometric {3D} vision made easy.
+\newblock In \emph{CVPR}, 2024{\natexlab{c}}.
+
+\bibitem[Wang et~al.(2020)Wang, Zhu, Wang, Hu, Qiu, Wang, Hu, Kapoor, and Scherer]{WangZWHQWHKS2020}
+Wenshan Wang, Delong Zhu, Xiangwei Wang, Yaoyu Hu, Yuheng Qiu, Chen Wang, Yafei Hu, Ashish Kapoor, and Sebastian Scherer.
+\newblock {TartanAir}: A dataset to push the limits of visual {SLAM}.
+\newblock In \emph{IROS}, 2020.
+
+\bibitem[Wang et~al.(2025{\natexlab{e}})Wang, Zhou, Zhu, Chang, Zhou, Li, Chen, Pang, Shen, and He]{WangZZCZLCPSH2025}
+Yifan Wang, Jianjun Zhou, Haoyi Zhu, Wenzheng Chang, Yang Zhou, Zizun Li, Junyi Chen, Jiangmiao Pang, Chunhua Shen, and Tong He.
+\newblock $\pi^3$: Scalable permutation-equivariant visual geometry learning.
+\newblock \href{https://arxiv.org/abs/2507.13347}{arXiv:2507.13347}, 2025{\natexlab{e}}.
+
+\bibitem[Weber et~al.(2026)Weber, Müller, Kant, Agrawal, Zollhöfer, Kanazawa, and Richardt]{WeberMKAZKR2026}
+Ethan Weber, Norman Müller, Yash Kant, Vasu Agrawal, Michael Zollhöfer, Angjoo Kanazawa, and Christian Richardt.
+\newblock Fillerbuster: Multi-view scene completion for casual captures.
+\newblock In \emph{3DV}, 2026.
+
+\bibitem[Weinzaepfel et~al.(2023)Weinzaepfel, Lucas, Leroy, Cabon, Arora, Brégier, Csurka, Antsfeld, Chidlovskii, and Revaud]{WeinzLLCABCACR2023}
+Philippe Weinzaepfel, Thomas Lucas, Vincent Leroy, Yohann Cabon, Vaibhav Arora, Romain Brégier, Gabriela Csurka, Leonid Antsfeld, Boris Chidlovskii, and Jerome Revaud.
+\newblock {CroCo} v2: Improved cross-view completion pre-training for stereo matching and optical flow.
+\newblock In \emph{ICCV}, 2023.
+
+\bibitem[Woodham(1980)]{Woodh1980}
+Robert~J. Woodham.
+\newblock Photometric method for determining surface orientation from multiple images.
+\newblock \emph{Optical Engineering}, 19\penalty0 (1):\penalty0 139--144, 1980.
+
+\bibitem[Yang et~al.(2025)Yang, Sax, Liang, Henaff, Tang, Cao, Chai, Meier, and Feiszli]{YangSLHTCCMF2025}
+Jianing Yang, Alexander Sax, Kevin~J. Liang, Mikael Henaff, Hao Tang, Ang Cao, Joyce Chai, Franziska Meier, and Matt Feiszli.
+\newblock {Fast3R}: Towards {3D} reconstruction of 1000+ images in one forward pass.
+\newblock In \emph{CVPR}, 2025.
+
+\bibitem[Yang et~al.(2024)Yang, Kang, Huang, Zhao, Xu, Feng, and Zhao]{YangKHZXFZ2024}
+Lihe Yang, Bingyi Kang, Zilong Huang, Zhen Zhao, Xiaogang Xu, Jiashi Feng, and Hengshuang Zhao.
+\newblock Depth anything {V2}.
+\newblock In \emph{NeurIPS}, 2024.
+
+\bibitem[Yao et~al.(2020)Yao, Luo, Li, Zhang, Ren, Zhou, Fang, and Quan]{YaoLLZRZFQ2020}
+Yao Yao, Zixin Luo, Shiwei Li, Jingyang Zhang, Yufan Ren, Lei Zhou, Tian Fang, and Long Quan.
+\newblock {BlendedMVS}: A large-scale dataset for generalized multi-view stereo networks.
+\newblock In \emph{CVPR}, 2020.
+
+\bibitem[Yeshwanth et~al.(2023)Yeshwanth, Liu, Nießner, and Dai]{YeshwLND2023}
+Chandan Yeshwanth, Yueh-Cheng Liu, Matthias Nießner, and Angela Dai.
+\newblock {ScanNet}++: A high-fidelity dataset of {3D} indoor scenes.
+\newblock In \emph{ICCV}, 2023.
+
+\bibitem[Yu and Gao(2020)]{YuG2020}
+Zehao Yu and Shenghua Gao.
+\newblock {Fast-MVSNet}: Sparse-to-dense multi-view stereo with learned propagation and {Gauss-Newton} refinement.
+\newblock In \emph{CVPR}, 2020.
+
+\bibitem[Zamir et~al.(2018)Zamir, Sax, Shen, Guibas, Malik, and Savarese]{ZamirSSGMS2018}
+Amir~R. Zamir, Alexander Sax, William Shen, Leonidas~J. Guibas, Jitendra Malik, and Silvio Savarese.
+\newblock Taskonomy: Disentangling task transfer learning.
+\newblock In \emph{CVPR}, pages 3712--3722, 2018.
+
+\bibitem[Zhang et~al.(2024)Zhang, Lin, Kumar, Yang, Ramanan, and Tulsiani]{ZhangLKYRT2024}
+Jason~Y. Zhang, Amy Lin, Moneish Kumar, Tzu-Hsuan Yang, Deva Ramanan, and Shubham Tulsiani.
+\newblock Cameras as rays: Pose estimation via ray diffusion.
+\newblock In \emph{ICLR}, 2024.
+
+\bibitem[Zhang et~al.(2023)Zhang, Rao, and Agrawala]{ZhangRA2023}
+Lvmin Zhang, Anyi Rao, and Maneesh Agrawala.
+\newblock Adding conditional control to text-to-image diffusion models.
+\newblock In \emph{ICCV}, 2023.
+
+\bibitem[Zhang et~al.(2025)Zhang, Keetha, Lyu, Jhamb, Chen, Qiu, Karhade, Jha, Hu, Ramanan, Scherer, and Wang]{ZhangKLJCQKJHRSW2025}
+Yuchen Zhang, Nikhil Keetha, Chenwei Lyu, Bhuvan Jhamb, Yutian Chen, Yuheng Qiu, Jay Karhade, Shreyas Jha, Yaoyu Hu, Deva Ramanan, Sebastian Scherer, and Wenshan Wang.
+\newblock {UFM}: A simple path towards unified dense correspondence with flow.
+\newblock In \emph{NeurIPS}, 2025.
+
+\bibitem[Zhou et~al.(2020)Zhou, Ummenhofer, and Brox]{ZhouUB2020}
+Huizhong Zhou, Benjamin Ummenhofer, and Thomas Brox.
+\newblock {DeepTAM}: Deep tracking and mapping with convolutional neural networks.
+\newblock \emph{Int. J. Comput. Vis.}, 128:\penalty0 756--769, 2020.
+
+\bibitem[Zhou et~al.(2025)Zhou, Gao, Voleti, Vasishta, Yao, Boss, Torr, Rupprecht, and Jampani]{ZhouGVVYBTRJ2025}
+Jinghao~(Jensen) Zhou, Hang Gao, Vikram Voleti, Aaryaman Vasishta, Chun-Han Yao, Mark Boss, Philip Torr, Christian Rupprecht, and Varun Jampani.
+\newblock Stable virtual camera: Generative view synthesis with diffusion models.
+\newblock In \emph{ICCV}, 2025.
+
+\end{thebibliography}

@@ -1,0 +1,25 @@
+\begin{table}
+  \centering
+  \caption{\label{tab:ablations_rep_uni_training}%
+    \textbf{Ablations providing insight into the key design choices.} %
+    We report the absolute relative error ($\absrel$) and the inlier ratio at a relative threshold of 1.03\% ($\threshI$) at 50 views, averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    Best results are \textbf{bold}.
+    \textbf{Insights:}
+    (a) The factored representation of rays, depth \& pose (RDP) along with metric scale is key to achieving strong reconstruction performance under different input configurations.
+    (b) \coolname trained universally for 12+ tasks in one go with equivalent compute to two bespoke models is superior in terms of performance to three bespoke models trained for distinct input configurations.
+    This indicates that the multi-task training of \coolname is highly efficient.
+  }
+  \begin{subtable}[t]{0.49\linewidth}
+    \centering
+    \caption{\textbf{Scene Representation}}
+    \input{tables/ablation_rep}
+    \label{tab:ablation_rep}
+  \end{subtable}%
+  \hfill
+  \begin{subtable}[t]{0.50\linewidth}
+    \centering
+    \caption{\textbf{Expert vs Universal Training}}
+    \input{tables/ablation_uni_training}
+    \label{tab:ablation_uni_training}
+  \end{subtable}%
+\end{table}

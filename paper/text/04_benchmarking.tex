@@ -1,0 +1,86 @@
+
+
+
+
+
+\section{Benchmarking \& Results}
+\label{sec:benchmarking}
+
+In this section, we benchmark \coolname across a wide suite of 3D vision tasks.
+For each task, we compare against expert baselines specifically designed or trained for the task.
+We perform all experiments with a constant seed.
+
+
+
+\paragraph{Multi-View Dense Reconstruction:}
+
+We benchmark the performance of pointmaps, pose, depth \& ray direction estimation on an undistorted version of ETH3D \cite{SchoepSGSSPG2017}, ScanNet++ v2 \cite{YeshwLND2023}, and TartanAirV2-WB \cite{WangZWHQWHKS2020, ZhangKLJCQKJHRSW2025}, where, for each test scene, we randomly sample up to $N$ views that form a single connected component graph based on the pre-computed pairwise covisibility of all images in the scene (this prevents disjoint sets of images as input).
+\cref{fig:comparison_graphs} shows that \coolname provides state-of-the-art dense multi-view reconstruction performance over other baselines using only image input, including VGGT \cite{WangCKVRN2025}.
+Beyond the performance using only images as input, we show that \coolname can leverage additional auxiliary geometric inputs for feed-forward inference to further increase reconstruction performance by a significant factor.
+Furthermore, we find that \coolname is better than the bundle adjustment (BA) variant of the two-view baseline, Pow3R \cite{JangWLAR2025}, which is also designed to leverage scene priors.
+We also find that reconstruction outputs from \coolname (using only images as input) display high fidelity, as shown in \cref{fig:qual_comparison}. 
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[trim={0cm 0cm 0cm 0.9cm},clip,width=\linewidth]{figs/V1_1_Benchmarking/v1_1_bench/results_v1_1_bench_average.pdf}
+    \caption{\label{fig:comparison_graphs}%
+    \textbf{\coolname shows state-of-the-art dense multi-view reconstruction for input views ranging from 2 to 100 and under different input configurations.}
+    We report the absolute relative error ($\absrel$), the inlier ratio at a relative threshold of $1.03\%$ ($\threshI$), the average aligned trajectory error ($ATE~RMSE$), the area under the curve at an error threshold of 5° ($AUC@5$), and the average angular error ($err$) in degrees (°), averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    We do not report performance for baselines when the inference runs out of GPU memory.
+    We provide results for individual datasets \& the exhaustive input configurations of \coolname in the supplement.
+    }
+\end{figure*}
+
+
+\paragraph{Two-View Dense Reconstruction:}
+
+We benchmark sparse-view reconstruction and image-matching performance against state-of-the-art feed-forward baselines in \cref{tab:two_view_dense_recon}.
+\coolname achieves state-of-the-art performance using only images as input.
+With additional input modalities, \coolname significantly outperforms both image-only baselines and Pow3R \cite{JangWLAR2025}, the only other two-view feed-forward method that uses scene or camera priors.
+
+\input{tables/two_view_dense_recon}
+
+
+\paragraph{Single-View Calibration:}
+
+We benchmark the single-view calibration performance of \coolname and other expert calibration baselines on randomly sampled frames from the test scenes of undistorted ETH3D \cite{SchoepSGSSPG2017}, ScanNet++ v2 \cite{YeshwLND2023}, and TartanAirV2 \cite{WangZWHQWHKS2020}.
+To test non-centered principal points, we randomly crop frames with aspect ratios from 3:1 to 1:2.
+Despite not being trained specifically on single images, \cref{tab:single_view_calib} shows that \coolname achieves state-of-the-art performance for perspective calibration.
+This demonstrates \coolname's effectiveness in modeling generic central camera systems
+and its potential to generalize to wide-angle models like fisheye with appropriate training.
+
+\input{tables/sv_calib}
+
+\input{tables/robust_mvd}
+
+
+\paragraph{Monocular \& Multi-View Depth Estimation:}
+\label{subsec:depth_estimation}
+
+In \cref{tab:robust-multi-view-depth}, we benchmark \coolname against specialized models for single-view and multi-view depth estimation across various inputs.
+In the RMVD benchmark, note that we don't use ETH3D due to the distortion issue mentioned in MVSA~\cite{IzquiSFGTCABW2025} and DTU \& Tanks and Temples since they are not metric.
+Although not trained specifically for single-view metric depth, \coolname achieves state-of-the-art or comparable performance.
+For multi-view metric depth estimation using images only, \coolname outperforms MASt3R-BA \cite{LeroyCR2024} \& MUSt3R \cite{CabonSACCRL2025}.
+With auxiliary inputs like camera calibration and poses, \coolname's performance improves and it delivers competitive results compared to task-specific specialized models.
+In comparison to baselines such as MoGe-2 \cite{WangXDDXLSTY2025} and MVSA \cite{IzquiSFGTCABW2025}, we find the metric scale estimation on ScanNet to be sub-optimal and believe this is likely due to lower benchmark dataset quality \cite{WangXDXDTY2025, IzquiSFGTCABW2025}.
+As indicated in \cref{tab:robust-multi-view-depth}, we observe strong depth estimation performance on ScanNet when using median scale alignment.
+
+
+
+
+
+
+
+
+\paragraph{Insights into enabling \coolname:}
+\label{para:insights}
+
+As shown in \cref{tab:ablation_rep}, the factored representation of the scene as a multi-view set of rays, depth \& pose (RDP) along with the metric scale is a key enabler for strong reconstruction performance while using images and optionally additional geometric inputs.
+In \cref{tab:ablation_uni_training}, we find that our input probability-based training is efficient in training one universal model for various tasks and input configurations, where the performance of the universally trained model is equivalent to various bespoke models trained for specific input configurations.
+
+\input{tables/ablations_rep_uni_training}  %
+
+
+
+
+

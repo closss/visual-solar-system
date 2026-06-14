@@ -1,0 +1,19 @@
+  \centering
+  \caption{\label{tab:ablations_loss_attention}%
+    \textbf{Ablations showing loss and multi-view transformer attention design choices critical for strong reconstruction performance.} %
+    We report the absolute relative error ($\absrel$) and the inlier ratio at a relative threshold of 1.03\% ($\threshI$) at 50 views, averaged over ETH3D, ScanNet++ v2 \& TAv2.
+    Best results are \textbf{bold}.
+  }
+  \begin{subtable}[t]{0.49\linewidth}
+    \centering
+    \caption{\textbf{Loss Scheme}}
+    \input{tables/ablation_loss}
+    \label{tab:ablation_loss}
+  \end{subtable}%
+  \hfill
+  \begin{subtable}[t]{0.50\linewidth}
+    \centering
+    \caption{\textbf{Attention Scheme}}
+    \input{tables/ablation_attention}
+    \label{tab:ablation_attention}
+  \end{subtable}%
