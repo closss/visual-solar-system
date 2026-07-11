@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="desk lab background">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#74624e"/>
+      <stop offset=".44" stop-color="#26323a"/>
+      <stop offset="1" stop-color="#b89f78"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx=".18" cy=".18" r=".36">
+      <stop stop-color="#fff1bb" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#fff1bb" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#wall)"/>
+  <rect y="610" width="1600" height="390" fill="#9f7750"/>
+  <path d="M0 620 L1600 560 L1600 1000 L0 1000Z" fill="#c09c64"/>
+  <rect x="120" y="620" width="420" height="48" rx="10" fill="#353b3e" opacity=".8"/>
+  <rect x="1040" y="600" width="280" height="58" rx="12" fill="#20292e" opacity=".82"/>
+  <circle cx="1320" cy="300" r="74" fill="#ffe59d" opacity=".82"/>
+  <rect x="1270" y="364" width="22" height="286" rx="11" fill="#2d3334"/>
+  <rect x="1180" y="646" width="230" height="28" rx="14" fill="#1b1f1f"/>
+  <rect width="1600" height="1000" fill="url(#lamp)"/>
+  <path d="M270 764 C520 700 850 708 1170 785" stroke="#271d18" stroke-opacity=".28" stroke-width="68" fill="none"/>
+</svg>
